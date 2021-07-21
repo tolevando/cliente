@@ -237,9 +237,7 @@ class _MenuWidgetState extends StateMVC<MenuWidget> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 3),
                                 decoration: BoxDecoration(
-                                    color: Helper.canDelivery(_con.market)
-                                        ? Colors.green
-                                        : Colors.grey,
+                                    color: Colors.grey,
                                     borderRadius: BorderRadius.circular(24)),
                                 child: Text(
                                   'Delivery: ' +
@@ -259,9 +257,7 @@ class _MenuWidgetState extends StateMVC<MenuWidget> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 3),
                                 decoration: BoxDecoration(
-                                    color: Helper.canDelivery(_con.market)
-                                        ? Colors.green
-                                        : Colors.grey,
+                                    color: Colors.grey,
                                     borderRadius: BorderRadius.circular(24)),
                                 child: Text(
                                   'Retirada: ' +
