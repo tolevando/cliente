@@ -26,8 +26,6 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
     final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
 
     // print(widget.order.payment.price);
-    print('teste top');
-    print(widget.order.productOrders.first.product.market.description);
 
     return Stack(
       children: <Widget>[
