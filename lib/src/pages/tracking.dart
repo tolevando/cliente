@@ -341,25 +341,26 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                     child: Wrap(
                                       alignment: WrapAlignment.end,
                                       children: <Widget>[
-                                        FlatButton(
-                                          onPressed: () {
-                                            launch("tel://" +
-                                                _con.order.productOrders.first
-                                                    .product.market.phone);
-                                          },
-                                          textColor:
-                                              Theme.of(context).hintColor,
-                                          child: Wrap(
-                                            children: <Widget>[
-                                              Text(
-                                                  'Ligar para o estabelecimento',
-                                                  style:
-                                                      TextStyle(height: 1.3)),
-                                            ],
+                                        if (_con.order.canCancelOrder())
+                                          FlatButton(
+                                            onPressed: () {
+                                              launch("tel://" +
+                                                  _con.order.productOrders.first
+                                                      .product.market.phone);
+                                            },
+                                            textColor:
+                                                Theme.of(context).hintColor,
+                                            child: Wrap(
+                                              children: <Widget>[
+                                                Text(
+                                                    'Ligar para o estabelecimento',
+                                                    style:
+                                                        TextStyle(height: 1.3)),
+                                              ],
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 0),
                                           ),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 0),
-                                        ),
                                         if (_con.order.canCancelOrder())
                                           FlatButton(
                                             onPressed: () {
