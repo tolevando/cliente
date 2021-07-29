@@ -225,6 +225,15 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                                   .textTheme
                                                   .caption,
                                             ),
+                                            if ((!_con.order.active) &&
+                                                (_con.order.reason_cancel !=
+                                                    ''))
+                                              Text(
+                                                'Motivo cancelamento: ${_con.order.reason_cancel}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .caption,
+                                              ),
                                           ],
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
