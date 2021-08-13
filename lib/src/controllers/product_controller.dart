@@ -186,9 +186,64 @@ class ProductController extends ControllerMVC {
 
   void calculateTotal() {
     total = product?.price ?? 0;
-    product?.options?.forEach((option) {
-      total += option.checked ? option.price : 0;
-    });
+
+    switch (product.option_mid_pizza) {
+      case '0': //NÃO OFERECE OPÇÃO PIZZA MEIO A MEIO
+        print("NÃO OFERECE OPÇÃO PIZZA MEIO A MEIO");
+        product?.options?.forEach((option) {
+          total += option.checked ? option.price : 0;
+        });
+        break;
+      case '1': //COBRA VALOR MEDIO OPÇÃO PIZZA MEIO A MEIO
+        print("COBRAR VALOR MÉDIO OPÇÃO PIZZA MEIO A MEIO");
+        var counter = 0;
+        for (var t = 0; t < product?.options?.length; t++) {
+          if (product?.options[t].checked) {
+            counter += 1;
+            if (counter < 3) {
+              total += (product?.options[t].price / 2);
+            } else {
+              total += product?.options[t].price;
+            }
+          } else {
+            total += 0;
+          }
+        }
+        break;
+      case '2': //COBRA VALOR MAIOR OPÇÃO PIZZA MEIO A MEIO
+        print("COBRAR VALOR MAIOR OPÇÃO PIZZA MEIO A MEIO");
+        var counter = 0;
+        var firstPrice = 0.0;
+        for (var t = 0; t < product?.options?.length; t++) {
+          if (product?.options[t].checked) {
+            print("COUNTER: " + counter.toString());
+            if (counter == 0) {
+              print("ENTROU NO COUNTER ZERO");
+              firstPrice = product?.options[t].price;
+            }
+            counter += 1;
+            if (counter < 3) {
+              print("FIRST PRICE: " + firstPrice.toString());
+              print("OPTION PRICE: " + product?.options[t].price.toString());
+              total = (firstPrice > product?.options[t].price
+                  ? firstPrice
+                  : product?.options[t].price);
+            } else {
+              total += product?.options[t].price;
+            }
+          } else {
+            total += 0;
+          }
+        }
+        break;
+      default:
+        print("COBRAR VALOR DEFAULT");
+        product?.options?.forEach((option) {
+          total += option.checked ? option.price : 0;
+        });
+        break;
+    }
+
     total *= quantity;
     setState(() {});
   }
