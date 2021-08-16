@@ -51,13 +51,17 @@ class Helper {
 
   static Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
+        .buffer
+        .asUint8List();
   }
 
   static Future<Marker> getMarker(Map<String, dynamic> res) async {
-    final Uint8List markerIcon = await getBytesFromAsset('assets/img/marker.png', 120);
+    final Uint8List markerIcon =
+        await getBytesFromAsset('assets/img/marker.png', 120);
     final Marker marker = Marker(
         markerId: MarkerId(res['id']),
         icon: BitmapDescriptor.fromBytes(markerIcon),
@@ -67,17 +71,21 @@ class Helper {
         anchor: Offset(0.5, 0.5),
         infoWindow: InfoWindow(
             title: res['name'],
-            snippet: getDistance(res['distance'].toDouble(), setting.value.distanceUnit),
+            snippet: getDistance(
+                res['distance'].toDouble(), setting.value.distanceUnit),
             onTap: () {
               print(CustomTrace(StackTrace.current, message: 'Info Window'));
             }),
-        position: LatLng(double.parse(res['latitude']), double.parse(res['longitude'])));
+        position: LatLng(
+            double.parse(res['latitude']), double.parse(res['longitude'])));
 
     return marker;
   }
 
-  static Future<Marker> getMyPositionMarker(double latitude, double longitude) async {
-    final Uint8List markerIcon = await getBytesFromAsset('assets/img/my_marker.png', 120);
+  static Future<Marker> getMyPositionMarker(
+      double latitude, double longitude) async {
+    final Uint8List markerIcon =
+        await getBytesFromAsset('assets/img/my_marker.png', 120);
     final Marker marker = Marker(
         markerId: MarkerId(Random().nextInt(100).toString()),
         icon: BitmapDescriptor.fromBytes(markerIcon),
@@ -95,14 +103,16 @@ class Helper {
     if (rate - rate.floor() > 0) {
       list.add(Icon(Icons.star_half, size: size, color: Color(0xFFFFB24D)));
     }
-    list.addAll(List.generate(5 - rate.floor() - (rate - rate.floor()).ceil(), (index) {
+    list.addAll(
+        List.generate(5 - rate.floor() - (rate - rate.floor()).ceil(), (index) {
       return Icon(Icons.star_border, size: size, color: Color(0xFFFFB24D));
     }));
     return list;
   }
 
   static void launchURL(String subject, String body) async {
-    var url = 'mailto:${GlobalConfiguration().getString('email')}?subject=$subject&body=$body';
+    var url =
+        'mailto:${GlobalConfiguration().getString('email')}?subject=$subject&body=$body';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -110,7 +120,8 @@ class Helper {
     }
   }
 
-  static Widget getPrice(double myPrice, BuildContext context, {TextStyle style, String zeroPlaceholder = '-'}) {
+  static Widget getPrice(double myPrice, BuildContext context,
+      {TextStyle style, String zeroPlaceholder = '-'}) {
     if (style != null) {
       style = style.merge(TextStyle(fontSize: style.fontSize + 2));
     }
@@ -122,29 +133,52 @@ class Helper {
         softWrap: false,
         overflow: TextOverflow.fade,
         maxLines: 1,
-        text: setting.value?.currencyRight != null && setting.value?.currencyRight == false
+        text: setting.value?.currencyRight != null &&
+                setting.value?.currencyRight == false
             ? TextSpan(
                 text: setting.value?.defaultCurrency,
                 style: style == null
                     ? Theme.of(context).textTheme.subtitle1.merge(
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: Theme.of(context).textTheme.subtitle1.fontSize - 6),
+                          TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      .fontSize -
+                                  6),
                         )
-                    : style.merge(TextStyle(fontWeight: FontWeight.w400, fontSize: style.fontSize - 6)),
+                    : style.merge(TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: style.fontSize - 6)),
                 children: <TextSpan>[
-                  TextSpan(text: myPrice.toStringAsFixed(setting.value?.currencyDecimalDigits) ?? '', style: style ?? Theme.of(context).textTheme.subtitle1),
+                  TextSpan(
+                      text: myPrice.toStringAsFixed(
+                              setting.value?.currencyDecimalDigits) ??
+                          '',
+                      style: style ?? Theme.of(context).textTheme.subtitle1),
                 ],
               )
             : TextSpan(
-                text: myPrice.toStringAsFixed(setting.value?.currencyDecimalDigits) ?? '',
+                text: myPrice.toStringAsFixed(
+                        setting.value?.currencyDecimalDigits) ??
+                    '',
                 style: style ?? Theme.of(context).textTheme.subtitle1,
                 children: <TextSpan>[
                   TextSpan(
                     text: setting.value?.defaultCurrency,
                     style: style == null
                         ? Theme.of(context).textTheme.subtitle1.merge(
-                              TextStyle(fontWeight: FontWeight.w400, fontSize: Theme.of(context).textTheme.subtitle1.fontSize - 6),
+                              TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          .fontSize -
+                                      6),
                             )
-                        : style.merge(TextStyle(fontWeight: FontWeight.w400, fontSize: style.fontSize - 6)),
+                        : style.merge(TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: style.fontSize - 6)),
                   ),
                 ],
               ),
@@ -165,9 +199,29 @@ class Helper {
 
   static double getOrderPrice(ProductOrder productOrder) {
     double total = productOrder.price;
-    productOrder.options.forEach((option) {
-      total += option.price != null ? option.price : 0;
-    });
+
+    switch (productOrder.product.option_mid_pizza) {
+      case '0': //NÃO OFERECE OPÇÃO PIZZA MEIO A MEIO
+        print("NÃO OFERECE OPÇÃO PIZZA MEIO A MEIO");
+        productOrder.options.forEach((option) {
+          total += option.price != null ? option.price : 0;
+        });
+        break;
+      case '1': //COBRA VALOR MEDIO OPÇÃO PIZZA MEIO A MEIO
+        print("COBRAR VALOR MÉDIO OPÇÃO PIZZA MEIO A MEIO");
+        total = productOrder.price;
+        break;
+      case '2': //COBRA VALOR MAIOR OPÇÃO PIZZA MEIO A MEIO
+        print("COBRAR VALOR MAIOR OPÇÃO PIZZA MEIO A MEIO");
+        total = productOrder.price;
+        break;
+      default:
+        print("COBRAR VALOR DEFAULT");
+        productOrder.options.forEach((option) {
+          total += option.price != null ? option.price : 0;
+        });
+        break;
+    }
     return total;
   }
 
@@ -194,7 +248,9 @@ class Helper {
     if (_unit == 'km') {
       distance *= 1.60934;
     }
-    return distance != null ? distance.toStringAsFixed(2) + " " + unit + " de você" : "";
+    return distance != null
+        ? distance.toStringAsFixed(2) + " " + unit + " de você"
+        : "";
   }
 
   static bool canDelivery(Market _market, {List<Cart> carts}) {
@@ -210,14 +266,25 @@ class Helper {
       _deliveryRange /= 1.60934;
     }
     //print(deliveryAddress.value.id);
-    if (_distance == 0 && !deliveryAddress.value.isUnknown()) {      
-      _distance = sqrt(pow(69.1 * (double.parse(_market.latitude) - deliveryAddress.value.latitude), 2) +
-          pow(69.1 * (deliveryAddress.value.longitude - double.parse(_market.longitude)) * cos(double.parse(_market.latitude)/ 57.3), 2));
+    if (_distance == 0 && !deliveryAddress.value.isUnknown()) {
+      _distance = sqrt(pow(
+              69.1 *
+                  (double.parse(_market.latitude) -
+                      deliveryAddress.value.latitude),
+              2) +
+          pow(
+              69.1 *
+                  (deliveryAddress.value.longitude -
+                      double.parse(_market.longitude)) *
+                  cos(double.parse(_market.latitude) / 57.3),
+              2));
     }
     //print(deliveryAddress.value.latitude);
     //print(_deliveryRange);
     //print(_distance);
-    _can &= _market.availableForDelivery && (_distance < _deliveryRange) && !deliveryAddress.value.isUnknown();
+    _can &= _market.availableForDelivery &&
+        (_distance < _deliveryRange) &&
+        !deliveryAddress.value.isUnknown();
     return _can;
   }
 
@@ -230,11 +297,13 @@ class Helper {
       return '';
     }
   }
+
   static Html applyCustomHtml(context, String html, {TextStyle style}) {
     return Html(
-      data: html ?? '',      
+      data: html ?? '',
     );
   }
+
   static Html applyHtml(context, String html, {TextStyle style}) {
     return Html(
       data: html ?? '',
@@ -288,8 +357,10 @@ class Helper {
     });
   }
 
-  static String limitString(String text, {int limit = 24, String hiddenText = "..."}) {
-    return text.substring(0, min<int>(limit, text.length)) + (text.length > limit ? hiddenText : '');
+  static String limitString(String text,
+      {int limit = 24, String hiddenText = "..."}) {
+    return text.substring(0, min<int>(limit, text.length)) +
+        (text.length > limit ? hiddenText : '');
   }
 
   static String getCreditCardNumber(String number) {
@@ -313,7 +384,6 @@ class Helper {
     }
     return result;
   }
-
 
   static Uri getUri(String path) {
     String _path = Uri.parse(GlobalConfiguration().getString('base_url')).path;
@@ -357,7 +427,8 @@ class Helper {
     }
   }
 
-  static AlignmentDirectional getAlignmentDirectional(String alignmentDirectional) {
+  static AlignmentDirectional getAlignmentDirectional(
+      String alignmentDirectional) {
     switch (alignmentDirectional) {
       case 'top_start':
         return AlignmentDirectional.topStart;
@@ -384,7 +455,8 @@ class Helper {
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null || now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
       Fluttertoast.showToast(msg: S.of(context).tapAgainToLeave);
       return Future.value(false);
