@@ -254,6 +254,29 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                       .subtitle1,
                                                 ),
                                               ),
+                                              optionGroup.is_unique
+                                                  ? Text(
+                                                      'Selecionar apenas uma opção',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .caption
+                                                          .merge(TextStyle(
+                                                              color:
+                                                                  Colors.red)),
+                                                    )
+                                                  : Padding(
+                                                      padding:
+                                                          EdgeInsets.all(0),
+                                                    ),
+                                              optionGroup.is_unique
+                                                  ? Padding(
+                                                      padding:
+                                                          EdgeInsets.all(20),
+                                                    )
+                                                  : Padding(
+                                                      padding:
+                                                          EdgeInsets.all(0),
+                                                    ),
                                               ListView.separated(
                                                 padding: EdgeInsets.all(0),
                                                 itemBuilder:
@@ -267,6 +290,8 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                                         .elementAt(optionIndex),
                                                     onChanged:
                                                         _con.calculateTotal,
+                                                    onPressed:
+                                                        _con.setOptionSelect,
                                                   );
                                                 },
                                                 separatorBuilder:
@@ -456,6 +481,78 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                                           } else {
                                             if (_con
                                                 .isSameMarkets(_con.product)) {
+                                              if (_con.isRequiredOptions(
+                                                  _con.product.optionGroups)) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: const Text(
+                                                          'Esse produto contém opções obrigatórias.'),
+                                                      content:
+                                                          SingleChildScrollView(
+                                                        child: ListBody(
+                                                          children: <Widget>[
+                                                            Text('Necessário selecionar opção "' +
+                                                                _con.requiredOption
+                                                                    .toString() +
+                                                                '" para continuar!!!'),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          child:
+                                                              const Text('Ok'),
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                                return false;
+                                              }
+                                              if (_con.isUniqueOption(
+                                                  _con.product.optionGroups)) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: const Text(
+                                                          'Esse produto contém opções únicas.'),
+                                                      content:
+                                                          SingleChildScrollView(
+                                                        child: ListBody(
+                                                          children: <Widget>[
+                                                            Text('Necessário selecionar apenas uma opção "' +
+                                                                _con.uniqueOption
+                                                                    .toString() +
+                                                                '" para continuar!!!'),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          child:
+                                                              const Text('Ok'),
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                                return false;
+                                              }
                                               _con.addToCart(_con.product);
                                             } else {
                                               showDialog(

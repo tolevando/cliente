@@ -17,6 +17,10 @@ class ProductController extends ControllerMVC {
   Favorite favorite;
   bool loadCart = false;
   GlobalKey<ScaffoldState> scaffoldKey;
+  List optionsSelect = [];
+  List optionsSelectUnique = [];
+  String requiredOption = "";
+  String uniqueOption = "";
 
   ProductController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -62,6 +66,46 @@ class ProductController extends ControllerMVC {
       return carts[0].product?.market?.id == product.market?.id;
     }
     return true;
+  }
+
+  bool isRequiredOptions(options) {
+    var is_required = false;
+    for (var i = 0; i < options.length; i++) {
+      if (options[i].is_required && !optionsSelect.contains(options[i].id)) {
+        requiredOption = options[i].name;
+        is_required = true;
+        break;
+      }
+    }
+
+    print("isRequiredOptions: " + is_required.toString());
+    setState(() {});
+    return is_required;
+  }
+
+  bool isUniqueOption(options) {
+    var is_unique = false;
+
+    for (var i = 0; i < options.length; i++) {
+      if (options[i].is_unique && optionsSelectUnique.contains(options[i].id)) {
+        int counter = 0;
+        for (var t = 0; t < optionsSelectUnique.length; t++) {
+          if (options[i].id == optionsSelectUnique[t]) {
+            counter += 1;
+          }
+        }
+
+        if (counter > 1) {
+          uniqueOption = options[i].name;
+          is_unique = true;
+          break;
+        }
+      }
+    }
+
+    print("isUniqueOption: " + is_unique.toString());
+    setState(() {});
+    return is_unique;
   }
 
   void addToCart(Product product, {bool reset = false}) async {
@@ -146,6 +190,22 @@ class ProductController extends ControllerMVC {
       total += option.checked ? option.price : 0;
     });
     total *= quantity;
+    setState(() {});
+  }
+
+  void setOptionSelect() {
+    optionsSelect = [];
+    optionsSelectUnique = [];
+
+    product?.options?.forEach((option) {
+      if (option.checked) {
+        optionsSelectUnique.add(option.optionGroupId);
+        if (!optionsSelect.contains(option.optionGroupId)) {
+          optionsSelect.add(option.optionGroupId);
+        }
+      }
+    });
+
     setState(() {});
   }
 
