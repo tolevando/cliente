@@ -24,6 +24,7 @@ class Product {
   List<Option> options;
   List<OptionGroup> optionGroups;
   List<Review> productReviews;
+  String option_mid_pizza;
 
   Product();
 
@@ -32,27 +33,52 @@ class Product {
       id = jsonMap['id'].toString();
       name = jsonMap['name'];
       price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : 0.0;
-      discountPrice = jsonMap['discount_price'] != null ? jsonMap['discount_price'].toDouble() : 0.0;
+      discountPrice = jsonMap['discount_price'] != null
+          ? jsonMap['discount_price'].toDouble()
+          : 0.0;
       price = discountPrice != 0 ? discountPrice : price;
-      discountPrice = discountPrice == 0 ? discountPrice : jsonMap['price'] != null ? jsonMap['price'].toDouble() : 0.0;
+      discountPrice = discountPrice == 0
+          ? discountPrice
+          : jsonMap['price'] != null
+              ? jsonMap['price'].toDouble()
+              : 0.0;
       description = jsonMap['description'];
       capacity = jsonMap['capacity'].toString();
       unit = jsonMap['unit'] != null ? jsonMap['unit'].toString() : '';
       packageItemsCount = jsonMap['package_items_count'].toString();
       featured = jsonMap['featured'] ?? false;
       deliverable = jsonMap['deliverable'] ?? false;
-      market = jsonMap['market'] != null ? Market.fromJSON(jsonMap['market']) : Market.fromJSON({});
-      category = jsonMap['category'] != null ? Category.fromJSON(jsonMap['category']) : Category.fromJSON({});
-      image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0 ? Media.fromJSON(jsonMap['media'][0]) : new Media();
-      options = jsonMap['options'] != null && (jsonMap['options'] as List).length > 0
-          ? List.from(jsonMap['options']).map((element) => Option.fromJSON(element)).toSet().toList()
+      market = jsonMap['market'] != null
+          ? Market.fromJSON(jsonMap['market'])
+          : Market.fromJSON({});
+      category = jsonMap['category'] != null
+          ? Category.fromJSON(jsonMap['category'])
+          : Category.fromJSON({});
+      image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0
+          ? Media.fromJSON(jsonMap['media'][0])
+          : new Media();
+      options =
+          jsonMap['options'] != null && (jsonMap['options'] as List).length > 0
+              ? List.from(jsonMap['options'])
+                  .map((element) => Option.fromJSON(element))
+                  .toSet()
+                  .toList()
+              : [];
+      optionGroups = jsonMap['option_groups'] != null &&
+              (jsonMap['option_groups'] as List).length > 0
+          ? List.from(jsonMap['option_groups'])
+              .map((element) => OptionGroup.fromJSON(element))
+              .toSet()
+              .toList()
           : [];
-      optionGroups = jsonMap['option_groups'] != null && (jsonMap['option_groups'] as List).length > 0
-          ? List.from(jsonMap['option_groups']).map((element) => OptionGroup.fromJSON(element)).toSet().toList()
+      productReviews = jsonMap['product_reviews'] != null &&
+              (jsonMap['product_reviews'] as List).length > 0
+          ? List.from(jsonMap['product_reviews'])
+              .map((element) => Review.fromJSON(element))
+              .toSet()
+              .toList()
           : [];
-      productReviews = jsonMap['product_reviews'] != null && (jsonMap['product_reviews'] as List).length > 0
-          ? List.from(jsonMap['product_reviews']).map((element) => Review.fromJSON(element)).toSet().toList()
-          : [];
+      option_mid_pizza = jsonMap['option_mid_pizza'].toString();
     } catch (e) {
       id = '';
       name = '';
@@ -70,6 +96,7 @@ class Product {
       options = [];
       optionGroups = [];
       productReviews = [];
+      option_mid_pizza = '';
       print(e);
     }
   }
