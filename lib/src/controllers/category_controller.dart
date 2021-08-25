@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:markets/src/models/market.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
@@ -11,6 +12,7 @@ import '../repository/product_repository.dart';
 
 class CategoryController extends ControllerMVC {
   List<Product> products = <Product>[];
+  List<Market> markets = <Market>[];
   GlobalKey<ScaffoldState> scaffoldKey;
   Category category;
   bool loadCart = false;
@@ -25,6 +27,15 @@ class CategoryController extends ControllerMVC {
     stream.listen((Product _product) {
       setState(() {
         products.add(_product);
+        if (markets.isEmpty) {
+          _product.market.distance = _product.distance ?? 0.0;
+          markets.add(_product.market);
+        }
+
+        if (markets.isNotEmpty && (markets?.last?.id != _product.market.id)) {
+          _product.market.distance = _product.distance ?? 0.0;
+          markets.add(_product.market);
+        }
       });
     }, onError: (a) {
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
@@ -125,13 +136,15 @@ class CategoryController extends ControllerMVC {
   }
 
   Cart isExistInCart(Cart _cart) {
-    return carts.firstWhere((Cart oldCart) => _cart.isSame(oldCart), orElse: () => null);
+    return carts.firstWhere((Cart oldCart) => _cart.isSame(oldCart),
+        orElse: () => null);
   }
 
   Future<void> refreshCategory() async {
     products.clear();
     category = new Category();
-    listenForProductsByCategory(message: S.of(context).category_refreshed_successfuly);
+    listenForProductsByCategory(
+        message: S.of(context).category_refreshed_successfuly);
     listenForCategory(message: S.of(context).category_refreshed_successfuly);
   }
 }
