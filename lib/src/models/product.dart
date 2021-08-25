@@ -25,6 +25,7 @@ class Product {
   List<OptionGroup> optionGroups;
   List<Review> productReviews;
   String option_mid_pizza;
+  double distance;
 
   Product();
 
@@ -79,6 +80,9 @@ class Product {
               .toList()
           : [];
       option_mid_pizza = jsonMap['option_mid_pizza'].toString();
+      distance = jsonMap['distance'] != null
+          ? double.parse(jsonMap['distance'].toString())
+          : 0.0;
     } catch (e) {
       id = '';
       name = '';
@@ -97,6 +101,7 @@ class Product {
       optionGroups = [];
       productReviews = [];
       option_mid_pizza = '';
+      distance = 0.0;
       print(e);
     }
   }

@@ -15,6 +15,7 @@ import '../models/product.dart';
 import '../models/review.dart';
 import '../models/user.dart';
 import '../repository/user_repository.dart' as userRepo;
+import '../repository/settings_repository.dart' as settingsRepo;
 
 Future<Stream<Product>> getTrendingProducts(Address address) async {
   Uri uri = Helper.getUri('api/products');
@@ -150,7 +151,14 @@ Future<Stream<Product>> getProductsByCategory(categoryId) async {
   _queryParams['search'] = 'category_id:$categoryId';
   _queryParams['searchFields'] = 'category_id:=';
 
+  Address _address = settingsRepo.deliveryAddress.value;
   _queryParams = filter.toQuery(oldQuery: _queryParams);
+
+  _queryParams['myLon'] = _address.longitude.toString();
+  _queryParams['myLat'] = _address.latitude.toString();
+  _queryParams['areaLon'] = _address.longitude.toString();
+  _queryParams['areaLat'] = _address.latitude.toString();
+
   uri = uri.replace(queryParameters: _queryParams);
   try {
     final client = new http.Client();

@@ -1,41 +1,40 @@
 {
   "project_info": {
-    "project_number": "-",
-    "firebase_url": "-",
-    "project_id": "-",
-    "storage_bucket": "-"
+    "project_number": "147323148571",
+    "project_id": "possible-cycle-258618",
+    "storage_bucket": "possible-cycle-258618.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "-",
+        "mobilesdk_app_id": "1:147323148571:android:9b995c95e2124204dadbbe",
         "android_client_info": {
-          "package_name": "br.com.carvs.donodoapp.demo"
+          "package_name": "br.com.tolevando.cliente"
         }
       },
       "oauth_client": [
         {
-          "client_id": "-",
+          "client_id": "147323148571-riqf5eojrshnjkrmprlt9349re2d4oi0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "-"
+          "current_key": "AIzaSyAzh_tIPHiBBWIw0ZiUD31ZLUedV2fV8aA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "-",
+              "client_id": "147323148571-riqf5eojrshnjkrmprlt9349re2d4oi0.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "-",
+              "client_id": "147323148571-glpf0ah6r56ha4od9tglv4c4l4uph8ed.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "br.com.carvs.donodoapp.demo"
+                "bundle_id": "br.com.tolevando.cliente"
               }
             }
           ]
