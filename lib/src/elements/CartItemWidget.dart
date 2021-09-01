@@ -13,7 +13,14 @@ class CartItemWidget extends StatefulWidget {
   VoidCallback decrement;
   VoidCallback onDismissed;
 
-  CartItemWidget({Key key, this.cart, this.heroTag, this.increment, this.decrement, this.onDismissed}) : super(key: key);
+  CartItemWidget(
+      {Key key,
+      this.cart,
+      this.heroTag,
+      this.increment,
+      this.decrement,
+      this.onDismissed})
+      : super(key: key);
 
   @override
   _CartItemWidgetState createState() => _CartItemWidgetState();
@@ -34,14 +41,19 @@ class _CartItemWidgetState extends State<CartItemWidget> {
         focusColor: Theme.of(context).accentColor,
         highlightColor: Theme.of(context).primaryColor,
         onTap: () {
-          Navigator.of(context).pushNamed('/Product', arguments: RouteArgument(id: widget.cart.product.id, heroTag: widget.heroTag));
+          Navigator.of(context).pushNamed('/Product',
+              arguments: RouteArgument(
+                  id: widget.cart.product.id, heroTag: widget.heroTag));
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withOpacity(0.9),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+              BoxShadow(
+                  color: Theme.of(context).focusColor.withOpacity(0.1),
+                  blurRadius: 5,
+                  offset: Offset(0, 2)),
             ],
           ),
           child: Row(
@@ -79,9 +91,11 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                             style: Theme.of(context).textTheme.subtitle1,
                           ),
                           Wrap(
-                            children: List.generate(widget.cart.options.length, (index) {
+                            children: List.generate(widget.cart.options.length,
+                                (index) {
                               return Text(
-                                widget.cart.options.elementAt(index).name + ', ',
+                                widget.cart.options.elementAt(index).name +
+                                    ', ',
                                 style: Theme.of(context).textTheme.caption,
                               );
                             }),
@@ -90,11 +104,30 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                             crossAxisAlignment: WrapCrossAlignment.center,
                             spacing: 5,
                             children: <Widget>[
-                              Helper.getPrice(widget.cart.product.price, context, style: Theme.of(context).textTheme.headline4, zeroPlaceholder: 'Free'),
+                              Helper.getPrice(
+                                  widget.cart.product.price, context,
+                                  style: Theme.of(context).textTheme.headline4,
+                                  zeroPlaceholder: 'Free'),
                               widget.cart.product.discountPrice > 0
-                                  ? Helper.getPrice(widget.cart.product.discountPrice, context,
-                                  style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(decoration: TextDecoration.lineThrough)))
+                                  ? Helper.getPrice(
+                                      widget.cart.product.discountPrice,
+                                      context,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .merge(TextStyle(
+                                              decoration:
+                                                  TextDecoration.lineThrough)))
                                   : SizedBox(height: 0),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 5,
+                            children: <Widget>[
+                              Helper.applyCustomHtml(context,
+                                  '<br><small>Arraste para o lado para remover </small></br>'),
                             ],
                           ),
                           //Helper.getPrice(widget.cart.getProductPrice(), context, style: Theme.of(context).textTheme.headline4)
@@ -116,7 +149,8 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                           icon: Icon(Icons.add_circle_outline),
                           color: Theme.of(context).hintColor,
                         ),
-                        Text(widget.cart.quantity.toString(), style: Theme.of(context).textTheme.subtitle1),
+                        Text(widget.cart.quantity.toString(),
+                            style: Theme.of(context).textTheme.subtitle1),
                         IconButton(
                           onPressed: () {
                             setState(() {
