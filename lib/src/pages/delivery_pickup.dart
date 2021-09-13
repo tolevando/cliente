@@ -19,8 +19,7 @@ import '../models/payment_method.dart';
 import '../models/route_argument.dart';
 import '../repository/settings_repository.dart';
 
-
-class DeliveryPickupWidget extends StatefulWidget { 
+class DeliveryPickupWidget extends StatefulWidget {
   final RouteArgument routeArgument;
 
   DeliveryPickupWidget({Key key, this.routeArgument}) : super(key: key);
@@ -31,20 +30,18 @@ class DeliveryPickupWidget extends StatefulWidget {
 
 class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
   DeliveryPickupController _con;
-  
 
   _DeliveryPickupWidgetState() : super(DeliveryPickupController()) {
     _con = controller;
-    
+
     checaDesconto();
-    
   }
 
-  void checaDesconto() async{        
-      _con.doApplyCoupon(coupon.code);
+  void checaDesconto() async {
+    _con.doApplyCoupon(coupon.code);
   }
 
-  void atualizaObservacao(String value) async{
+  void atualizaObservacao(String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("observacao", value);
   }
@@ -52,33 +49,32 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
   @override
   Widget build(BuildContext context) {
     if (_con.list == null) {
-      _con.list = new PaymentMethodList(context);      
+      _con.list = new PaymentMethodList(context);
       Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-      prefs.then((pref){
-        setState(){
+      prefs.then((pref) {
+        setState() {
           print("to aqui");
-          if(!(pref.getBool("offline_payment_option_cash")??true)){
-              print("to aqui2");
-              _con.list.cashList.removeWhere((element){
-                return element.id=="cod";
-              });
+          if (!(pref.getBool("offline_payment_option_cash") ?? true)) {
+            print("to aqui2");
+            _con.list.cashList.removeWhere((element) {
+              return element.id == "cod";
+            });
           }
-          if(!(pref.getBool("offline_payment_option_credit")??true)){
-              print("to aqui3");
-              _con.list.cashList.removeWhere((element){
-                return element.id=="ccod";
-              });
+          if (!(pref.getBool("offline_payment_option_credit") ?? true)) {
+            print("to aqui3");
+            _con.list.cashList.removeWhere((element) {
+              return element.id == "ccod";
+            });
           }
-          if(!(pref.getBool("offline_payment_option_debit")??true)){
-              print("to aqui4");
-              _con.list.cashList.removeWhere((element){
-                return element.id=="cdod";
-              });
-          }    
-        }          
+          if (!(pref.getBool("offline_payment_option_debit") ?? true)) {
+            print("to aqui4");
+            _con.list.cashList.removeWhere((element) {
+              return element.id == "cdod";
+            });
+          }
+        }
       });
-
-    }    
+    }
     return Scaffold(
       key: _con.scaffoldKey,
       bottomNavigationBar: CartBottomDetailsWidget(con: _con),
@@ -88,10 +84,15 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
         centerTitle: true,
         title: Text(
           S.of(context).delivery_or_pickup,
-          style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
+          style: Theme.of(context)
+              .textTheme
+              .headline6
+              .merge(TextStyle(letterSpacing: 1.3)),
         ),
         actions: <Widget>[
-          new ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
+          new ShoppingCartButtonWidget(
+              iconColor: Theme.of(context).hintColor,
+              labelColor: Theme.of(context).accentColor),
         ],
       ),
       body: SingleChildScrollView(
@@ -131,7 +132,8 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
             Column(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 10, left: 20, right: 10),
+                  padding: const EdgeInsets.only(
+                      top: 20, bottom: 10, left: 20, right: 10),
                   child: ListTile(
                     contentPadding: EdgeInsets.symmetric(vertical: 0),
                     leading: Icon(
@@ -144,9 +146,13 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.headline4,
                     ),
-                    subtitle: _con.carts.isNotEmpty && Helper.canDelivery(_con.carts[0].product.market, carts: _con.carts)
+                    subtitle: _con.carts.isNotEmpty &&
+                            Helper.canDelivery(_con.carts[0].product.market,
+                                carts: _con.carts)
                         ? Text(
-                            S.of(context).click_to_confirm_your_address_and_pay_or_long_press,
+                            S
+                                .of(context)
+                                .click_to_confirm_your_address_and_pay_or_long_press,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.caption,
@@ -159,68 +165,145 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                           ),
                   ),
                 ),
-                _con.carts.isNotEmpty && Helper.canDelivery(_con.carts[0].product.market, carts: _con.carts)
-                    ? DeliveryAddressesItemWidget(
-                        paymentMethod: _con.getDeliveryMethod(),
-                        address: _con.deliveryAddress,
-                        onPressed: (Address _address) {
-                          if (_con.deliveryAddress.id == null || _con.deliveryAddress.id == 'null') {
-                            DeliveryAddressDialog(
-                              context: context,
-                              address: _address,
-                              onChanged: (Address _address) {
-                                _con.addAddress(_address);
-                              },
-                            );
-                          } else {
-                            _con.toggleDelivery();
-                          }
-                        },
-                        onLongPress: (Address _address) {
-                          DeliveryAddressDialog(
-                            context: context,
-                            address: _address,
-                            onChanged: (Address _address) {
-                              _con.updateAddress(_address);
+                _con.carts.isNotEmpty &&
+                        Helper.canDelivery(_con.carts[0].product.market,
+                            carts: _con.carts)
+                    ? _con.addresses.length > 0
+                        ? ListView.separated(
+                            padding: EdgeInsets.symmetric(vertical: 25),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: _con.addresses.length,
+                            separatorBuilder: (context, index) {
+                              return SizedBox(height: 10);
                             },
-                          );
-                        },
-                      )
+                            itemBuilder: (context, index) {
+                              return DeliveryAddressesItemWidget(
+                                paymentMethod: _con.getDeliveryMethod(),
+                                // address: _con.deliveryAddress,
+                                address: _con.addresses.elementAt(index),
+                                onPressed: (Address _address) {
+                                  if (_con.addresses.elementAt(index).id ==
+                                          null ||
+                                      _con.addresses.elementAt(index).id ==
+                                          'null' ||
+                                      _con.addresses.elementAt(index).address ==
+                                          'null' ||
+                                      _con.addresses.elementAt(index).address ==
+                                          null) {
+                                    DeliveryAddressDialog(
+                                      context: context,
+                                      address: _address,
+                                      onChanged: (Address _address) {
+                                        _con.addAddress(_address);
+                                      },
+                                    );
+                                  } else {
+                                    _con.setSelectItem(
+                                        _con.addresses.elementAt(index).id);
+                                    _con.toggleDelivery(false);
+                                  }
+                                },
+                                onLongPress: (Address _address) {
+                                  DeliveryAddressDialog(
+                                    context: context,
+                                    address: _address,
+                                    onChanged: (Address _address) {
+                                      _con.updateAddress(_address);
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          )
+                        : DeliveryAddressesItemWidget(
+                            paymentMethod: _con.getDeliveryMethod(),
+                            address: _con.deliveryAddress,
+                            onPressed: (Address _address) {
+                              if (_con.deliveryAddress.id == null ||
+                                  _con.deliveryAddress.id == 'null') {
+                                DeliveryAddressDialog(
+                                  context: context,
+                                  address: _address,
+                                  onChanged: (Address _address) {
+                                    _con.addAddress(_address);
+                                  },
+                                );
+                              } else {
+                                // print('ENDERECO CLICK ' +
+                                // _con.addresses[0].description);
+                                // print('ENDERECO ID ' + _con.addresses[0].id);
+                                print('DELIVERY ADDRESS ID ' +
+                                    _con.deliveryAddress.id);
+                                _con.setSelectItem(_con.deliveryAddress.id);
+                                _con.toggleDelivery(true);
+                              }
+                            },
+                            onLongPress: (Address _address) {
+                              DeliveryAddressDialog(
+                                context: context,
+                                address: _address,
+                                onChanged: (Address _address) {
+                                  _con.updateAddress(_address);
+                                },
+                              );
+                            },
+                          )
                     : NotDeliverableAddressesItemWidget()
               ],
             ),
             SizedBox(height: 15),
             Container(
-            padding: const EdgeInsets.all(18),
-            margin: EdgeInsets.only(bottom: 15),
-            decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                boxShadow: [BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), offset: Offset(0, 2), blurRadius: 5.0)]),
-            child:  TextField(
-              maxLines: 3,
-              keyboardType: TextInputType.text,
-              onSubmitted: (String value) {                
-                atualizaObservacao(value);                
-              },
-              onChanged: (String value) {
-                atualizaObservacao(value);
-              },
-              cursorColor: Theme.of(context).accentColor,
-              decoration: InputDecoration(                            
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              padding: const EdgeInsets.all(18),
+              margin: EdgeInsets.only(bottom: 15),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Theme.of(context).focusColor.withOpacity(0.15),
+                        offset: Offset(0, 2),
+                        blurRadius: 5.0)
+                  ]),
+              child: TextField(
+                maxLines: 3,
+                keyboardType: TextInputType.text,
+                onSubmitted: (String value) {
+                  atualizaObservacao(value);
+                },
+                onChanged: (String value) {
+                  atualizaObservacao(value);
+                },
+                cursorColor: Theme.of(context).accentColor,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintStyle: Theme.of(context).textTheme.bodyText1,                          
-                  suffixStyle: Theme.of(context).textTheme.caption.merge(TextStyle(color: _con.getCouponIconColor())),                          
-                  hintText: "Adicione uma observação para acompanhar o pedido\n",
+                  hintStyle: Theme.of(context).textTheme.bodyText1,
+                  suffixStyle: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .merge(TextStyle(color: _con.getCouponIconColor())),
+                  hintText:
+                      "Adicione uma observação para acompanhar o pedido\n",
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.3))),
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                          color:
+                              Theme.of(context).focusColor.withOpacity(0.3))),
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                          color:
+                              Theme.of(context).focusColor.withOpacity(0.5))),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.3))),
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                          color:
+                              Theme.of(context).focusColor.withOpacity(0.3))),
                 ),
-              ),  
+              ),
             ),
           ],
         ),

@@ -13,16 +13,20 @@ import '../repository/settings_repository.dart';
 class DeliveryAddressBottomSheetWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  DeliveryAddressBottomSheetWidget({Key key, this.scaffoldKey}) : super(key: key);
+  DeliveryAddressBottomSheetWidget({Key key, this.scaffoldKey})
+      : super(key: key);
 
   @override
-  _DeliveryAddressBottomSheetWidgetState createState() => _DeliveryAddressBottomSheetWidgetState();
+  _DeliveryAddressBottomSheetWidgetState createState() =>
+      _DeliveryAddressBottomSheetWidgetState();
 }
 
-class _DeliveryAddressBottomSheetWidgetState extends StateMVC<DeliveryAddressBottomSheetWidget> {
+class _DeliveryAddressBottomSheetWidgetState
+    extends StateMVC<DeliveryAddressBottomSheetWidget> {
   DeliveryAddressesController _con;
 
-  _DeliveryAddressBottomSheetWidgetState() : super(DeliveryAddressesController()) {
+  _DeliveryAddressBottomSheetWidgetState()
+      : super(DeliveryAddressesController()) {
     _con = controller;
   }
 
@@ -32,9 +36,13 @@ class _DeliveryAddressBottomSheetWidgetState extends StateMVC<DeliveryAddressBot
       height: 350,
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20), topLeft: Radius.circular(20)),
         boxShadow: [
-          BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.4), blurRadius: 30, offset: Offset(0, -30)),
+          BoxShadow(
+              color: Theme.of(context).focusColor.withOpacity(0.4),
+              blurRadius: 30,
+              offset: Offset(0, -30)),
         ],
       ),
       child: Stack(
@@ -42,14 +50,17 @@ class _DeliveryAddressBottomSheetWidgetState extends StateMVC<DeliveryAddressBot
           Padding(
             padding: const EdgeInsets.only(top: 30),
             child: ListView(
-              padding: EdgeInsets.only(top: 20, bottom: 15, left: 20, right: 20),
+              padding:
+                  EdgeInsets.only(top: 20, bottom: 15, left: 20, right: 20),
               children: <Widget>[
                 InkWell(
                   onTap: () async {
                     LocationResult result = await showLocationPicker(
                       context,
                       setting.value.googleMapsKey,
-                      initialCenter: LatLng(deliveryAddress.value?.latitude ?? 0, deliveryAddress.value?.longitude ?? 0),
+                      initialCenter: LatLng(
+                          deliveryAddress.value?.latitude ?? 0,
+                          deliveryAddress.value?.longitude ?? 0),
                       //automaticallyAnimateToCurrentLocation: true,
                       //mapStylePath: 'assets/mapStyle.json',
                       myLocationButtonEnabled: true,
@@ -69,7 +80,9 @@ class _DeliveryAddressBottomSheetWidgetState extends StateMVC<DeliveryAddressBot
                       Container(
                         height: 36,
                         width: 36,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)), color: Theme.of(context).focusColor),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Theme.of(context).focusColor),
                         child: Icon(
                           Icons.add_circle_outline,
                           color: Theme.of(context).primaryColor,
@@ -89,7 +102,8 @@ class _DeliveryAddressBottomSheetWidgetState extends StateMVC<DeliveryAddressBot
                                     S.of(context).add_new_delivery_address,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
-                                    style: Theme.of(context).textTheme.bodyText2,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2,
                                   ),
                                 ],
                               ),
@@ -118,7 +132,9 @@ class _DeliveryAddressBottomSheetWidgetState extends StateMVC<DeliveryAddressBot
                       Container(
                         height: 36,
                         width: 36,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)), color: Theme.of(context).accentColor),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Theme.of(context).accentColor),
                         child: Icon(
                           Icons.my_location,
                           color: Theme.of(context).primaryColor,
@@ -138,7 +154,8 @@ class _DeliveryAddressBottomSheetWidgetState extends StateMVC<DeliveryAddressBot
                                     S.of(context).current_location,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
-                                    style: Theme.of(context).textTheme.bodyText2,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2,
                                   ),
                                 ],
                               ),
@@ -184,7 +201,10 @@ class _DeliveryAddressBottomSheetWidgetState extends StateMVC<DeliveryAddressBot
 //                );
                     return InkWell(
                       onTap: () {
-                        _con.changeDeliveryAddress(_con.addresses.elementAt(index)).then((value) {
+                        _con
+                            .changeDeliveryAddress(
+                                _con.addresses.elementAt(index))
+                            .then((value) {
                           Navigator.of(widget.scaffoldKey.currentContext).pop();
                         });
                       },
@@ -194,7 +214,10 @@ class _DeliveryAddressBottomSheetWidgetState extends StateMVC<DeliveryAddressBot
                           Container(
                             height: 36,
                             width: 36,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)), color: Theme.of(context).focusColor),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5)),
+                                color: Theme.of(context).focusColor),
                             child: Icon(
                               Icons.place,
                               color: Theme.of(context).primaryColor,
@@ -208,13 +231,19 @@ class _DeliveryAddressBottomSheetWidgetState extends StateMVC<DeliveryAddressBot
                               children: <Widget>[
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        _con.addresses.elementAt(index).address??"-",
+                                        _con.addresses
+                                                .elementAt(index)
+                                                .address ??
+                                            "-",
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 3,
-                                        style: Theme.of(context).textTheme.bodyText2,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2,
                                       ),
                                     ],
                                   ),
@@ -238,10 +267,12 @@ class _DeliveryAddressBottomSheetWidgetState extends StateMVC<DeliveryAddressBot
           Container(
             height: 30,
             width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 13, horizontal: config.App(context).appWidth(42)),
+            padding: EdgeInsets.symmetric(
+                vertical: 13, horizontal: config.App(context).appWidth(42)),
             decoration: BoxDecoration(
               color: Theme.of(context).focusColor.withOpacity(0.05),
-              borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20), topLeft: Radius.circular(20)),
             ),
             child: Container(
               width: 30,
