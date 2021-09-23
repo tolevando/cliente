@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "147323148571",
-    "project_id": "possible-cycle-258618",
-    "storage_bucket": "possible-cycle-258618.appspot.com"
+    "project_number": "3218048716",
+    "project_id": "tolevando",
+    "storage_bucket": "tolevando.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:147323148571:android:9b995c95e2124204dadbbe",
+        "mobilesdk_app_id": "1:3218048716:android:7c09aa45f8461b3545a469",
         "android_client_info": {
           "package_name": "br.com.tolevando.cliente"
         }
       },
       "oauth_client": [
         {
-          "client_id": "147323148571-riqf5eojrshnjkrmprlt9349re2d4oi0.apps.googleusercontent.com",
+          "client_id": "3218048716-lrkgosge6n79gcp1ct3j934rcp9bojci.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAzh_tIPHiBBWIw0ZiUD31ZLUedV2fV8aA"
+          "current_key": "AIzaSyBhq4akTwHLSSXUNT_cCsN-1Gf-7JxnSIA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "147323148571-riqf5eojrshnjkrmprlt9349re2d4oi0.apps.googleusercontent.com",
+              "client_id": "3218048716-lrkgosge6n79gcp1ct3j934rcp9bojci.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "147323148571-glpf0ah6r56ha4od9tglv4c4l4uph8ed.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "br.com.tolevando.cliente"
-              }
             }
           ]
         }

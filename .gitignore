@@ -35,7 +35,7 @@
 /android/app/debug/*
 /android/app/profile/*
 /android/app/release/*
-/android/app/src/main/**
+#/android/app/src/main/**
 
 # Android related
 **/android/**/gradle-wrapper.jar
@@ -62,7 +62,7 @@
 **/ios/Flutter/.last_build_id
 **ios/Flutter/flutter_export_environment.sh
 
-**/ios/**/Runner/GoogleService-Info.plist
+# **/ios/**/Runner/GoogleService-Info.plist
 
 **/ios/**/.symlinks/
 **/ios/**/profile
