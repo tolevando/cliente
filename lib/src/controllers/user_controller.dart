@@ -23,6 +23,8 @@ class UserController extends ControllerMVC {
     _firebaseMessaging = FirebaseMessaging();
     _firebaseMessaging.getToken().then((String _deviceToken) {
       user.deviceToken = _deviceToken;
+      print('NOTIFICATION TOKEN');
+      print(_deviceToken);
     }).catchError((e) {
       print('Notification not configured');
     });
@@ -35,7 +37,8 @@ class UserController extends ControllerMVC {
       Overlay.of(context).insert(loader);
       repository.login(user).then((value) {
         if (value != null && value.apiToken != null) {
-          Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+          Navigator.of(scaffoldKey.currentContext)
+              .pushReplacementNamed('/Pages', arguments: 2);
         } else {
           scaffoldKey?.currentState?.showSnackBar(SnackBar(
             content: Text(S.of(context).wrong_email_or_password),
@@ -59,8 +62,9 @@ class UserController extends ControllerMVC {
       Overlay.of(context).insert(loader);
       repository.register(user).then((value) {
         if (value != null && value.apiToken != null) {
-          Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
-        } else {          
+          Navigator.of(scaffoldKey.currentContext)
+              .pushReplacementNamed('/Pages', arguments: 2);
+        } else {
           scaffoldKey?.currentState?.showSnackBar(SnackBar(
             content: Text(S.of(context).wrong_email_or_password),
           ));
@@ -69,20 +73,21 @@ class UserController extends ControllerMVC {
         //tenta fazer o login
         repository.login(user).then((value) {
           if (value != null && value.apiToken != null) {
-            Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+            Navigator.of(scaffoldKey.currentContext)
+                .pushReplacementNamed('/Pages', arguments: 2);
           } else {
             scaffoldKey?.currentState?.showSnackBar(SnackBar(
               content: Text(S.of(context).this_email_account_exists),
             ));
           }
         }).catchError((e) {
-          loader.remove();          
+          loader.remove();
           scaffoldKey?.currentState?.showSnackBar(SnackBar(
             content: Text(S.of(context).this_email_account_exists),
           ));
         }).whenComplete(() {
           Helper.hideLoader(loader);
-        });        
+        });
       }).whenComplete(() {
         Helper.hideLoader(loader);
       });
@@ -97,11 +102,13 @@ class UserController extends ControllerMVC {
       repository.resetPassword(user).then((value) {
         if (value != null && value == true) {
           scaffoldKey?.currentState?.showSnackBar(SnackBar(
-            content: Text(S.of(context).your_reset_link_has_been_sent_to_your_email),
+            content:
+                Text(S.of(context).your_reset_link_has_been_sent_to_your_email),
             action: SnackBarAction(
               label: S.of(context).login,
               onPressed: () {
-                Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Login');
+                Navigator.of(scaffoldKey.currentContext)
+                    .pushReplacementNamed('/Login');
               },
             ),
             duration: Duration(seconds: 10),

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "3218048716-1di6t1ltu4b1krstgfq9a15g80kqd2f2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.tolevando.cliente",
+            "certificate_hash": "f9959f2b0e30c07c9c117aaea2dc13a898ebb840"
+          }
+        },
+        {
           "client_id": "3218048716-lrkgosge6n79gcp1ct3j934rcp9bojci.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "3218048716-lrkgosge6n79gcp1ct3j934rcp9bojci.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "3218048716-k5iebdgj9mi91bh25hi7ng36pkih1269.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.tolevando.cliente"
+              }
             }
           ]
         }
