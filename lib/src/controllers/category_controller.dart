@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:markets/src/models/market.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/l10n.dart';
 import '../models/cart.dart';
@@ -24,17 +25,24 @@ class CategoryController extends ControllerMVC {
 
   void listenForProductsByCategory({String id, String message}) async {
     final Stream<Product> stream = await getProductsByCategory(id);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var cidade_id = prefs.getString("cidade_escolhida");
+
     stream.listen((Product _product) {
       setState(() {
         products.add(_product);
         if (markets.isEmpty) {
           _product.market.distance = _product.distance ?? 0.0;
-          markets.add(_product.market);
+          if (int.parse(cidade_id) == _product.market.cidade_id) {
+            markets.add(_product.market);
+          }
         }
 
         if (markets.isNotEmpty && (markets?.last?.id != _product.market.id)) {
           _product.market.distance = _product.distance ?? 0.0;
-          markets.add(_product.market);
+          if (int.parse(cidade_id) == _product.market.cidade_id) {
+            markets.add(_product.market);
+          }
         }
       });
     }, onError: (a) {

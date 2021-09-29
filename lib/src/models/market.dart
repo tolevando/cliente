@@ -28,6 +28,7 @@ class Market {
   bool exige_agendamento;
   String estimated_time_delivery;
   String estimated_time_get_product;
+  int cidade_id;
 
   bool possui_bairros_personalizados;
   List<Bairro> bairros;
@@ -83,6 +84,7 @@ class Market {
       estimated_time_delivery = jsonMap['estimated_time_delivery'] ?? null;
       estimated_time_get_product =
           jsonMap['estimated_time_get_product'] ?? null;
+      cidade_id = jsonMap['cidade_id'] ?? null;
 
       //print(possui_bairros_personalizados);
 
@@ -121,6 +123,7 @@ class Market {
       exige_agendamento = false;
       estimated_time_delivery = '';
       estimated_time_get_product = '';
+      cidade_id = null;
       print(e);
     }
   }
