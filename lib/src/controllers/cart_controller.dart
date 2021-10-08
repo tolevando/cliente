@@ -23,6 +23,7 @@ class CartController extends ControllerMVC {
   GlobalKey<ScaffoldState> scaffoldKey;
   bool isRetirada = false;
   String observacao = "";
+  String card_brand = "";
   String troco_para = "";
   bool precisaSelecionarBairro = true;
   DateTime pickedDate;

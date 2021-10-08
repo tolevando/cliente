@@ -17,6 +17,7 @@ class Order {
   Payment payment;
   Address deliveryAddress;
   String observacao = "";
+  String card_brand = "";
   String troco_para = "";
   String bairro_id = "";
   String coupon_id = null;
@@ -54,6 +55,8 @@ class Order {
           : [];
       observacao =
           jsonMap['observacao'] != null ? jsonMap['observacao'].toString() : '';
+      card_brand =
+          jsonMap['card_brand'] != null ? jsonMap['card_brand'].toString() : '';
       troco_para =
           jsonMap['troco_para'] != null ? jsonMap['troco_para'].toString() : '';
       bairro_id =
@@ -76,6 +79,7 @@ class Order {
       deliveryAddress = Address.fromJSON({});
       productOrders = [];
       observacao = '';
+      card_brand = '';
       troco_para = '';
       bairro_id = '';
       data_hora = '';
@@ -92,6 +96,7 @@ class Order {
     map["tax"] = tax;
     map['hint'] = hint;
     map['observacao'] = observacao;
+    map['card_brand'] = card_brand;
     map['troco_para'] = troco_para;
     map['coupon_id'] = coupon_id;
     map["delivery_fee"] = deliveryFee;

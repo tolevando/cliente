@@ -20,18 +20,17 @@ class CheckoutController extends CartController {
   Payment payment;
   CreditCard creditCard = new CreditCard();
   CreditCardPagarme creditCardPagarme = new CreditCardPagarme();
-  bool loading = true;  
+  bool loading = true;
 
   CheckoutController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
     listenForCreditCard();
-    
   }
 
   void listenForCreditCard() async {
     creditCard = await userRepo.getCreditCard();
     creditCardPagarme = await userRepo.getCreditCardPagarme();
-    print("AQUI: "+creditCardPagarme.toMap().toString());
+    print("AQUI: " + creditCardPagarme.toMap().toString());
     setState(() {});
   }
 
@@ -41,27 +40,28 @@ class CheckoutController extends CartController {
     super.onLoadingCartDone();
   }
 
-  void addOrder(List<Cart> carts) async {    
+  void addOrder(List<Cart> carts) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("cartao_recusado", false);
-    observacao = prefs.getString("observacao")??'';
-    troco_para = prefs.getString("troco")??'';
+    observacao = prefs.getString("observacao") ?? '';
+    card_brand = prefs.getString("card_brand") ?? '';
+    troco_para = prefs.getString("troco") ?? '';
     String bairro_id = '';
-    
-    Order _order = new Order();    
+
+    Order _order = new Order();
     _order.productOrders = new List<ProductOrder>();
     _order.tax = carts[0].product.market.defaultTax;
     _order.deliveryFee = carts[0].product.market.deliveryFee;
     _order.deliveryAddress = settingRepo.deliveryAddress.value;
-    if(isRetirada || payment.method == 'Pagar na Retirada'){
+    if (isRetirada || payment.method == 'Pagar na Retirada') {
       _order.deliveryFee = 0;
-      _order.deliveryAddress = new Address.fromJSON({});      
+      _order.deliveryAddress = new Address.fromJSON({});
     }
     OrderStatus _orderStatus = new OrderStatus();
     _orderStatus.id = '1'; // TODO default order status Id
     _order.orderStatus = _orderStatus;
-    
-    if(_order.deliveryAddress == null){
+
+    if (_order.deliveryAddress == null) {
       _order.deliveryFee = 0;
     }
     _order.hint = ' ';
@@ -69,45 +69,49 @@ class CheckoutController extends CartController {
     carts.forEach((_cart) {
       ProductOrder _productOrder = new ProductOrder();
 
-      if(settingRepo.coupon.id != ''){
+      if (settingRepo.coupon.id != '') {
         _order.coupon_id = settingRepo.coupon.id;
         _cart.product.applyCoupon(settingRepo.coupon);
-      }      
+      }
 
       _productOrder.quantity = _cart.quantity;
       _productOrder.price = _cart.product.price;
       _productOrder.product = _cart.product;
       _productOrder.options = _cart.options;
 
-      if(prefs.containsKey("last_market_bairro_selecionado") 
-              && prefs.getString("last_market_bairro_selecionado") == _cart.product.market.id){
+      if (prefs.containsKey("last_market_bairro_selecionado") &&
+          prefs.getString("last_market_bairro_selecionado") ==
+              _cart.product.market.id) {
         bairro_id = prefs.getString("last_market_bairro_id");
       }
 
       _order.productOrders.add(_productOrder);
-      if(_productOrder.product.market.exige_agendamento){
+      if (_productOrder.product.market.exige_agendamento) {
         precisaDataHora = true;
       }
     });
-    if(precisaDataHora){      
-      _order.data_hora = prefs.getString("data_hora")??'';
-    }else{
+    if (precisaDataHora) {
+      _order.data_hora = prefs.getString("data_hora") ?? '';
+    } else {
       _order.data_hora = "";
     }
-    
-    orderRepo.addOrder(_order, this.payment,observacao,troco_para,bairro_id).then((value) async {
-      if(value['sucesso'] == 1){
+
+    orderRepo
+        .addOrder(
+            _order, this.payment, observacao, card_brand, troco_para, bairro_id)
+        .then((value) async {
+      if (value['sucesso'] == 1) {
         settingRepo.coupon = new Coupon.fromJSON({});
         setState(() {
           prefs.remove("observacao");
           prefs.remove("troco");
           loading = false;
         });
-      }else{
+      } else {
         prefs.setBool("cartao_recusado", true);
         Navigator.of(context)..popAndPushNamed('/CartaoRecusado');
       }
-      
+
       return value;
     });
   }
@@ -120,7 +124,7 @@ class CheckoutController extends CartController {
       ));
     });
   }
-  
+
   void updateCreditCardPagarme(CreditCardPagarme creditCard) {
     userRepo.setCreditCardPagarme(creditCard).then((value) {
       setState(() {});
