@@ -19,6 +19,7 @@ import '../models/cart.dart';
 import '../models/market.dart';
 import '../models/order.dart';
 import '../models/product_order.dart';
+import '../models/product.dart';
 import '../repository/settings_repository.dart';
 import 'app_config.dart' as config;
 import 'custom_trace.dart';
@@ -121,13 +122,62 @@ class Helper {
   }
 
   static Widget getPrice(double myPrice, BuildContext context,
-      {TextStyle style, String zeroPlaceholder = '-'}) {
+      {TextStyle style,
+      String zeroPlaceholder = '-',
+      Product product = null,
+      options = null}) {
     if (style != null) {
       style = style.merge(TextStyle(fontSize: style.fontSize + 2));
     }
     try {
       if (myPrice == 0) {
-        return Text('-', style: style ?? Theme.of(context).textTheme.subtitle1);
+        switch (product.option_mid_pizza) {
+          case '0': //NÃO OFERECE OPÇÃO PIZZA MEIO A MEIO
+            print("RETURN DEFAULT - CASE 0");
+            return Text('-',
+                style: style ?? Theme.of(context).textTheme.subtitle1);
+            break;
+          case '1': //COBRA VALOR MEDIO OPÇÃO PIZZA MEIO A MEIO
+            print("COBRAR VALOR MÉDIO OPÇÃO PIZZA MEIO A MEIO GET PRICE");
+            var counter = 0;
+            for (var t = 0; t < options.length; t++) {
+              counter += 1;
+              if (counter < 3) {
+                myPrice += (options[t].price / 2);
+              } else {
+                myPrice += options[t].price;
+              }
+            }
+            break;
+          case '2': //COBRA VALOR MAIOR OPÇÃO PIZZA MEIO A MEIO
+            print("COBRAR VALOR MAIOR OPÇÃO PIZZA MEIO A MEIO GET PRICE");
+            var counter = 0;
+            var firstPrice = 0.0;
+            for (var t = 0; t < options.length; t++) {
+              print("COUNTER: " + counter.toString());
+              if (counter == 0) {
+                print("ENTROU NO COUNTER ZERO");
+                firstPrice = options[t].price;
+              }
+              counter += 1;
+              if (counter < 3) {
+                print("FIRST PRICE: " + firstPrice.toString());
+                print("OPTION PRICE: " + options[t].price.toString());
+                myPrice = (firstPrice > options[t].price
+                    ? firstPrice
+                    : options[t].price);
+              } else {
+                myPrice += options[t].price;
+              }
+            }
+            break;
+          default:
+            print("RETURN DEFAULT");
+            return Text('-',
+                style: style ?? Theme.of(context).textTheme.subtitle1);
+
+            break;
+        }
       }
       return RichText(
         softWrap: false,

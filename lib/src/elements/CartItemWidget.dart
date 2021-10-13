@@ -107,7 +107,9 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                               Helper.getPrice(
                                   widget.cart.product.price, context,
                                   style: Theme.of(context).textTheme.headline4,
-                                  zeroPlaceholder: 'Free'),
+                                  zeroPlaceholder: 'Free',
+                                  product: widget.cart.product,
+                                  options: widget.cart.options),
                               widget.cart.product.discountPrice > 0
                                   ? Helper.getPrice(
                                       widget.cart.product.discountPrice,
