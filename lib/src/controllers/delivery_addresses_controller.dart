@@ -75,6 +75,8 @@ class DeliveryAddressesController extends ControllerMVC with ChangeNotifier {
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
         content: Text(S.of(context).new_address_added_successfully),
       ));
+      addresses.clear();
+      listenForAddresses();
     });
   }
 
@@ -89,7 +91,8 @@ class DeliveryAddressesController extends ControllerMVC with ChangeNotifier {
     userRepo.updateAddress(address).then((value) {
       setState(() {});
       addresses.clear();
-      listenForAddresses(message: S.of(context).the_address_updated_successfully);
+      listenForAddresses(
+          message: S.of(context).the_address_updated_successfully);
     });
   }
 

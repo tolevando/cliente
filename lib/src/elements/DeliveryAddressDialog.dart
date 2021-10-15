@@ -69,13 +69,38 @@ class DeliveryAddressDialog {
                             return 'Endereço não é válido';
                           }
 
-                          if (!input.contains(new RegExp(r'[0-9]'))) {
-                            return 'Informar o número da residência';
-                          }
+                          // if (!input.contains(new RegExp(r'[0-9]'))) {
+                          //   return 'Informar o número da residência';
+                          // }
 
                           return null;
                         },
                         onSaved: (input) => address.address = input,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: new TextFormField(
+                        style: TextStyle(color: Theme.of(context).hintColor),
+                        keyboardType: TextInputType.text,
+                        decoration: getInputDecoration(
+                            hintText: "Nº 130...",
+                            labelText: 'Número da residência'),
+                        initialValue: address.number?.isNotEmpty ?? false
+                            ? address.number
+                            : null,
+                        validator: (input) {
+                          if (input.trim().length == 0) {
+                            return 'Informar o número da residência';
+                          }
+
+                          if (!input.contains(new RegExp(r'[0-9]'))) {
+                            return 'Número da residência não é válido';
+                          }
+
+                          return null;
+                        },
+                        onSaved: (input) => address.number = input,
                       ),
                     ),
                     SizedBox(

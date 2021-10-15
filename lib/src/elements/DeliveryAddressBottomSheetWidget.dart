@@ -9,6 +9,7 @@ import '../controllers/delivery_addresses_controller.dart';
 import '../helpers/app_config.dart' as config;
 import '../models/address.dart';
 import '../repository/settings_repository.dart';
+import '../elements/DeliveryAddressDialog.dart';
 
 class DeliveryAddressBottomSheetWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -66,12 +67,23 @@ class _DeliveryAddressBottomSheetWidgetState
                       myLocationButtonEnabled: true,
                       //resultCardAlignment: Alignment.bottomCenter,
                     );
-                    _con.addAddress(new Address.fromJSON({
-                      'address': result.address,
-                      'latitude': result.latLng.latitude,
-                      'longitude': result.latLng.longitude,
-                    }));
-                    print("result = $result");
+                    DeliveryAddressDialog(
+                      context: context,
+                      address: new Address.fromJSON({
+                        'address': result.address,
+                        'latitude': result.latLng.latitude,
+                        'longitude': result.latLng.longitude,
+                      }),
+                      onChanged: (Address _address) {
+                        _con.addAddress(_address);
+                      },
+                    );
+                    // _con.addAddress(new Address.fromJSON({
+                    //   'address': result.address,
+                    //   'latitude': result.latLng.latitude,
+                    //   'longitude': result.latLng.longitude,
+                    // }));
+                    // print("result = $result");
                     // Navigator.of(widget.scaffoldKey.currentContext).pop();
                   },
                   child: Row(
@@ -181,24 +193,24 @@ class _DeliveryAddressBottomSheetWidgetState
                     return SizedBox(height: 25);
                   },
                   itemBuilder: (context, index) {
-//                return DeliveryAddressesItemWidget(
-//                  address: _con.addresses.elementAt(index),
-//                  onPressed: (Address _address) {
-//                    _con.chooseDeliveryAddress(_address);
-//                  },
-//                  onLongPress: (Address _address) {
-//                    DeliveryAddressDialog(
-//                      context: context,
-//                      address: _address,
-//                      onChanged: (Address _address) {
-//                        _con.updateAddress(_address);
-//                      },
-//                    );
-//                  },
-//                  onDismissed: (Address _address) {
-//                    _con.removeDeliveryAddress(_address);
-//                  },
-//                );
+                    // return DeliveryAddressesItemWidget(
+                    //   address: _con.addresses.elementAt(index),
+                    //   onPressed: (Address _address) {
+                    //     _con.chooseDeliveryAddress(_address);
+                    //   },
+                    //   onLongPress: (Address _address) {
+                    //     DeliveryAddressDialog(
+                    //       context: context,
+                    //       address: _address,
+                    //       onChanged: (Address _address) {
+                    //         _con.updateAddress(_address);
+                    //       },
+                    //     );
+                    //   },
+                    //   onDismissed: (Address _address) {
+                    //     _con.removeDeliveryAddress(_address);
+                    //   },
+                    // );
                     return InkWell(
                       onTap: () {
                         _con

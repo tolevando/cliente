@@ -11,6 +11,7 @@ class Address {
   bool isDefault;
   bool selected;
   String userId;
+  String number;
 
   Address();
 
@@ -24,6 +25,7 @@ class Address {
       latitude = jsonMap['latitude'] != null ? jsonMap['latitude'] : null;
       longitude = jsonMap['longitude'] != null ? jsonMap['longitude'] : null;
       isDefault = jsonMap['is_default'] ?? false;
+      number = jsonMap['number'] != null ? jsonMap['number'] : null;
     } catch (e) {
       print(CustomTrace(StackTrace.current, message: e));
     }
@@ -43,6 +45,7 @@ class Address {
     map["longitude"] = longitude;
     map["is_default"] = isDefault;
     map["user_id"] = userId;
+    map["number"] = number;
     return map;
   }
 
