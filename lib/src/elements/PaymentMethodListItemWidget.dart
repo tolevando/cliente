@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/payment_method.dart';
-import '../elements/CardBrandDialog.dart';
+import '../models/route_argument.dart';
 
 // ignore: must_be_immutable
 class PaymentMethodListItemWidget extends StatelessWidget {
@@ -22,10 +22,11 @@ class PaymentMethodListItemWidget extends StatelessWidget {
           Navigator.of(context).pushNamed(this.paymentMethod.route);
           print(this.paymentMethod.name);
         } else {
-          return (CardBrandDialog(
-            context: context,
-            paymentMethod: this.paymentMethod,
-          ));
+          Navigator.of(context).pushNamed('/SelectBrand',
+              arguments: RouteArgument(
+                param: this.paymentMethod.route,
+                //heroTag: widget.heroTag,
+              ));
         }
       },
       child: Container(

@@ -12,6 +12,8 @@ class Address {
   bool selected;
   String userId;
   String number;
+  String bairro;
+  String complement;
 
   Address();
 
@@ -26,6 +28,8 @@ class Address {
       longitude = jsonMap['longitude'] != null ? jsonMap['longitude'] : null;
       isDefault = jsonMap['is_default'] ?? false;
       number = jsonMap['number'] != null ? jsonMap['number'] : null;
+      bairro = jsonMap['bairro'] != null ? jsonMap['bairro'] : null;
+      complement = jsonMap['complement'] != null ? jsonMap['complement'] : null;
     } catch (e) {
       print(CustomTrace(StackTrace.current, message: e));
     }
@@ -46,6 +50,8 @@ class Address {
     map["is_default"] = isDefault;
     map["user_id"] = userId;
     map["number"] = number;
+    map["bairro"] = bairro;
+    map["complement"] = complement;
     return map;
   }
 

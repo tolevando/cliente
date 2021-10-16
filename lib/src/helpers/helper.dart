@@ -238,6 +238,148 @@ class Helper {
     }
   }
 
+  static Widget getPriceMinimum(double myPrice, BuildContext context,
+      {TextStyle style,
+      String zeroPlaceholder = '-',
+      Product product = null,
+      options = null}) {
+    if (style != null) {
+      style = style.merge(TextStyle(fontSize: style.fontSize + 2));
+    }
+    if (myPrice == 0) {
+      return Text('', style: style ?? Theme.of(context).textTheme.subtitle1);
+    }
+    try {
+      return RichText(
+        softWrap: false,
+        overflow: TextOverflow.fade,
+        maxLines: 1,
+        text: setting.value?.currencyRight != null &&
+                setting.value?.currencyRight == false
+            ? TextSpan(
+                text: '-' + setting.value?.defaultCurrency,
+                style: style == null
+                    ? Theme.of(context).textTheme.subtitle1.merge(
+                          TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      .fontSize -
+                                  6),
+                        )
+                    : style.merge(TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: style.fontSize - 6)),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: myPrice.toStringAsFixed(
+                              setting.value?.currencyDecimalDigits) ??
+                          '',
+                      style: style ?? Theme.of(context).textTheme.subtitle1),
+                ],
+              )
+            : TextSpan(
+                text: myPrice.toStringAsFixed(
+                        setting.value?.currencyDecimalDigits) ??
+                    '',
+                style: style ?? Theme.of(context).textTheme.subtitle1,
+                children: <TextSpan>[
+                  TextSpan(
+                    text: setting.value?.defaultCurrency,
+                    style: style == null
+                        ? Theme.of(context).textTheme.subtitle1.merge(
+                              TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          .fontSize -
+                                      6),
+                            )
+                        : style.merge(TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: style.fontSize - 6)),
+                  ),
+                ],
+              ),
+      );
+    } catch (e) {
+      return Text('');
+    }
+  }
+
+  static Widget getPriceMinimumPercent(double myPrice, BuildContext context,
+      {TextStyle style,
+      String zeroPlaceholder = '-',
+      Product product = null,
+      options = null}) {
+    if (style != null) {
+      style = style.merge(TextStyle(fontSize: style.fontSize + 2));
+    }
+    if (myPrice == 0) {
+      return Text('', style: style ?? Theme.of(context).textTheme.subtitle1);
+    }
+    try {
+      return RichText(
+        softWrap: false,
+        overflow: TextOverflow.fade,
+        maxLines: 1,
+        text: setting.value?.currencyRight != null &&
+                setting.value?.currencyRight == false
+            ? TextSpan(
+                text: '-' + setting.value?.defaultCurrency,
+                style: style == null
+                    ? Theme.of(context).textTheme.subtitle1.merge(
+                          TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      .fontSize -
+                                  6),
+                        )
+                    : style.merge(TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: style.fontSize - 6)),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: myPrice.toStringAsFixed(
+                              setting.value?.currencyDecimalDigits) ??
+                          '',
+                      style: style ?? Theme.of(context).textTheme.subtitle1),
+                ],
+              )
+            : TextSpan(
+                text: myPrice.toStringAsFixed(
+                        setting.value?.currencyDecimalDigits) ??
+                    '',
+                style: style ?? Theme.of(context).textTheme.subtitle1,
+                children: <TextSpan>[
+                  TextSpan(
+                    text: setting.value?.defaultCurrency,
+                    style: style == null
+                        ? Theme.of(context).textTheme.subtitle1.merge(
+                              TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          .fontSize -
+                                      6),
+                            )
+                        : style.merge(TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: style.fontSize - 6)),
+                  ),
+                ],
+              ),
+      );
+    } catch (e) {
+      return Text('');
+    }
+  }
+
   static double getTotalOrderPrice(ProductOrder productOrder) {
     double total = productOrder.price;
     productOrder.options.forEach((option) {

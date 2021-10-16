@@ -59,8 +59,8 @@ class DeliveryAddressDialog {
                         style: TextStyle(color: Theme.of(context).hintColor),
                         keyboardType: TextInputType.text,
                         decoration: getInputDecoration(
-                            hintText: S.of(context).hint_full_address,
-                            labelText: S.of(context).full_address),
+                            hintText: 'Avenida Brasil...',
+                            labelText: 'Endereço'),
                         initialValue: address.address?.isNotEmpty ?? false
                             ? address.address
                             : null,
@@ -101,6 +101,40 @@ class DeliveryAddressDialog {
                           return null;
                         },
                         onSaved: (input) => address.number = input,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: new TextFormField(
+                        style: TextStyle(color: Theme.of(context).hintColor),
+                        keyboardType: TextInputType.text,
+                        decoration: getInputDecoration(
+                            hintText: "Nome do bairro...", labelText: 'Bairro'),
+                        initialValue: address.bairro?.isNotEmpty ?? false
+                            ? address.bairro
+                            : null,
+                        validator: (input) {
+                          if (input.trim().length == 0) {
+                            return 'Informar o bairro';
+                          }
+
+                          return null;
+                        },
+                        onSaved: (input) => address.bairro = input,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: new TextFormField(
+                        style: TextStyle(color: Theme.of(context).hintColor),
+                        keyboardType: TextInputType.text,
+                        decoration: getInputDecoration(
+                            hintText: "Bloco A, Apart. 2...",
+                            labelText: 'Complemento'),
+                        initialValue: address.complement?.isNotEmpty ?? false
+                            ? address.complement
+                            : null,
+                        onSaved: (input) => address.complement = input,
                       ),
                     ),
                     SizedBox(

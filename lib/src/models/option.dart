@@ -18,12 +18,16 @@ class Option {
   Option.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
-      optionGroupId = jsonMap['option_group_id'] != null ? jsonMap['option_group_id'].toString() : '0';
+      optionGroupId = jsonMap['option_group_id'] != null
+          ? jsonMap['option_group_id'].toString()
+          : '0';
       name = jsonMap['name'].toString();
       price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : 0;
       description = jsonMap['description'];
       checked = false;
-      image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0 ? Media.fromJSON(jsonMap['media'][0]) : new Media();
+      image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0
+          ? Media.fromJSON(jsonMap['media'][0])
+          : new Media();
     } catch (e) {
       id = '';
       optionGroupId = '0';
@@ -53,12 +57,11 @@ class Option {
   @override
   int get hashCode => this.id.hashCode;
 
-
   Coupon applyCoupon(Coupon coupon) {
     if (coupon.code != '') {
       if (coupon.valid == null) {
         coupon.valid = false;
-      }else{                
+      } else {
         coupon = _couponDiscountPrice(coupon);
       }
       /*coupon.discountables.forEach((element) {
@@ -84,7 +87,7 @@ class Option {
   }
 
   Coupon _couponDiscountPrice(Coupon coupon) {
-    if(!couponed){
+    if (!couponed) {
       coupon.valid = true;
       discountPrice = price;
       if (coupon.discountType == 'fixed') {
@@ -92,7 +95,7 @@ class Option {
       } else {
         price = price - (price * coupon.discount / 100);
         print(price);
-      }    
+      }
       if (price < 0) price = 0;
 
       couponed = true;

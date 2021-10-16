@@ -33,6 +33,7 @@ import 'src/pages/settings.dart';
 import 'src/pages/signup.dart';
 import 'src/pages/splash_screen.dart';
 import 'src/pages/tracking.dart';
+import 'src/pages/select_brand.dart';
 
 import 'package:markets/src/pages/cidadela.dart';
 import 'package:markets/src/pages/cidadela2.dart';
@@ -78,6 +79,10 @@ class RouteGenerator {
       case '/Cart':
         return MaterialPageRoute(
             builder: (_) => CartWidget(routeArgument: args as RouteArgument));
+      case '/SelectBrand':
+        return MaterialPageRoute(
+            builder: (_) =>
+                SelectBrandWidget(routeArgument: args as RouteArgument));
       case '/Tracking':
         return MaterialPageRoute(
             builder: (_) =>

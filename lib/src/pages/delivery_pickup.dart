@@ -38,7 +38,7 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
   }
 
   void checaDesconto() async {
-    _con.doApplyCoupon(coupon.code);
+    _con.doApplyCouponConstructor(coupon.code);
   }
 
   void atualizaObservacao(String value) async {
@@ -245,7 +245,7 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                                 context: context,
                                 address: _address,
                                 onChanged: (Address _address) {
-                                  _con.updateAddress(_address);
+                                  _con.addAddress(_address);
                                 },
                               );
                             },

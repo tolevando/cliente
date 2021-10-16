@@ -112,8 +112,6 @@ Future<Stream<OrderStatus>> getOrderStatus() async {
 
 Future<dynamic> addOrder(Order order, Payment payment, String observacao,
     String card_brand, String troco, String bairro_id) async {
-  print("order brand card: " + card_brand);
-
   User _user = userRepo.currentUser.value;
   if (_user.apiToken == null) {
     return new Order();

@@ -28,6 +28,8 @@ class CartController extends ControllerMVC {
   bool precisaSelecionarBairro = true;
   DateTime pickedDate;
   TimeOfDay time;
+  Coupon coupon_cart;
+  bool is_coupon = false;
 
   CartController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -178,12 +180,13 @@ class CartController extends ControllerMVC {
   void calculateSubtotal() async {
     //coupon = await couponRepo.getCoupon();
     print(coupon.code);
+
     double cartPrice = 0;
     subTotal = 0;
     carts.forEach((cart) {
       print(cart.product.price);
       //coupon = cart.product.applyCoupon(coupon);
-      print(cart.product.price);
+      // print(cart.product.price);
       cartPrice = cart.product.price;
 
       switch (cart.product.option_mid_pizza) {
@@ -261,10 +264,37 @@ class CartController extends ControllerMVC {
   }
 
   void doApplyCoupon(String code, {String message}) async {
+    print("CAINDO APPLY COUPON");
+    coupon_cart = null;
+    is_coupon = false;
+    setState(() {});
     coupon = new Coupon.fromJSON({"code": code, "valid": null});
     final Stream<Coupon> stream = await verifyCoupon(code);
     stream.listen((Coupon _coupon) async {
       coupon = _coupon;
+      coupon_cart = _coupon;
+      is_coupon = true;
+      setState(() {});
+      //couponRepo.saveCoupon(coupon);
+    }, onError: (a) {
+      print(a);
+      scaffoldKey?.currentState?.showSnackBar(SnackBar(
+        content: Text(S.of(context).verify_your_internet_connection),
+      ));
+    }, onDone: () {
+      listenForCarts();
+    });
+  }
+
+  void doApplyCouponConstructor(String code, {String message}) async {
+    coupon = new Coupon.fromJSON({"code": code, "valid": null});
+    final Stream<Coupon> stream = await verifyCoupon(code);
+    stream.listen((Coupon _coupon) async {
+      print('CUPOM TYPE');
+      print(_coupon.discountType);
+      coupon = _coupon;
+      coupon_cart = _coupon;
+      is_coupon = true;
       //couponRepo.saveCoupon(coupon);
     }, onError: (a) {
       print(a);

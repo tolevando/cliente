@@ -108,7 +108,18 @@ class DeliveryAddressesItemWidget extends StatelessWidget {
                               )
                             : SizedBox(height: 0),
                         Text(
-                          address?.address ?? S.of(context).unknown,
+                          (address?.address != null
+                              ? (address.number != null
+                                  ? address.bairro != null
+                                      ? address.address +
+                                          ', ' +
+                                          address.number +
+                                          ' - ' +
+                                          address.bairro
+                                      : address.address + ', ' + address.number
+                                  : address.address)
+                              : S.of(context).unknown),
+                          // address?.address ?? S.of(context).unknown,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: address?.description != null
