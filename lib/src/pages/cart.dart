@@ -67,6 +67,8 @@ class _CartWidgetState extends StateMVC<CartWidget> {
           leading: IconButton(
             onPressed: () {
               if (widget.routeArgument != null) {
+                _con.resetCouponValue();
+
                 Navigator.of(context).pushReplacementNamed(
                     widget.routeArgument.param,
                     arguments: RouteArgument(id: widget.routeArgument.id));
@@ -321,9 +323,9 @@ class _CartWidgetState extends StateMVC<CartWidget> {
                                         FloatingLabelBehavior.always,
                                     hintStyle:
                                         Theme.of(context).textTheme.bodyText1,
-                                    suffixText: coupon?.valid == null
+                                    suffixText: !_con.is_coupon
                                         ? ''
-                                        : (coupon.valid
+                                        : (_con.discountCoupon > 0
                                             ? S.of(context).validCouponCode
                                             : S.of(context).invalidCouponCode),
                                     suffixStyle: Theme.of(context)

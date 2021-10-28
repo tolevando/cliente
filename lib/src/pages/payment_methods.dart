@@ -28,6 +28,12 @@ class _PaymentMethodsWidgetState extends StateMVC<PaymentMethodsWidget> {
   DeliveryPickupController _con;
   _PaymentMethodsWidgetState() : super(DeliveryPickupController()) {
     _con = controller;
+
+    checaDesconto();
+  }
+
+  void checaDesconto() async {
+    _con.doApplyCouponConstructor(coupon.code);
   }
 
   void updateTrocoPara(valor) async {

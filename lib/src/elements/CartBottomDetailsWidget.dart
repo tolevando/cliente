@@ -102,14 +102,17 @@ class CartBottomDetailsWidget extends StatelessWidget {
                         ),
                       ),
                       if (_con.is_coupon)
-                        if (_con.coupon_cart.discountType == 'fixed')
-                          Helper.getPriceMinimum(
-                              _con.coupon_cart?.discount ?? 0, context,
-                              style: Theme.of(context).textTheme.subtitle1)
-                        else
-                          Helper.getPriceMinimum(0, context,
-                              style: Theme.of(context).textTheme.subtitle1,
-                              zeroPlaceholder: '')
+                        Helper.getPriceMinimum(
+                            _con.getDiscountCoupon() ?? 0, context,
+                            style: Theme.of(context).textTheme.subtitle1)
+                      // if (_con.coupon_cart.discountType == 'fixed')
+                      // Helper.getPriceMinimum(
+                      //     _con.coupon_cart?.discount ?? 0, context,
+                      //     style: Theme.of(context).textTheme.subtitle1)
+                      // else
+                      //   Helper.getPriceMinimum(0, context,
+                      //       style: Theme.of(context).textTheme.subtitle1,
+                      //       zeroPlaceholder: '')
                     ],
                   ),
                   SizedBox(height: 10),

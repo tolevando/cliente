@@ -20,6 +20,7 @@ class CartController extends ControllerMVC {
   int cartCount = 0;
   double subTotal = 0.0;
   double total = 0.0;
+  double discountCoupon = 0.0;
   GlobalKey<ScaffoldState> scaffoldKey;
   bool isRetirada = false;
   String observacao = "";
@@ -37,11 +38,59 @@ class CartController extends ControllerMVC {
 
   double getTotal({String met = null}) {
     //print("isRetirada: "+isRetirada.toString());
+    print('GET TOTAL DISCOUNT COUPON VALUE: ' + discountCoupon.toString());
     if (isRetirada || met == "Pagar na Retirada") {
+      // return total - deliveryFee - discountCoupon;
+      if (is_coupon && coupon.discountType == 'percent') {
+        discountCoupon = (subTotal * coupon.discount / 100);
+        return total = subTotal - discountCoupon;
+      }
+
       return total - deliveryFee;
     } else {
+      print('GET TOTAL IS RETIRADA');
+      print(discountCoupon);
+      print(total);
+      print(subTotal);
+      print(deliveryFee);
+      if (is_coupon && coupon.discountType == 'percent') {
+        discountCoupon = ((subTotal + deliveryFee) * coupon.discount / 100);
+        return total = (subTotal + deliveryFee) - discountCoupon;
+      }
+      // calculateSubtotal();
+      // return total - discountCoupon;
       return total;
     }
+  }
+
+  double getDiscountCoupon() {
+    if (isRetirada) {
+      print("IS RETIRADA");
+      // print(coupon.discountType);
+      print(discountCoupon);
+      print(total);
+      print(subTotal);
+      print(deliveryFee);
+      if (is_coupon && coupon.discountType == 'percent') {
+        return discountCoupon = (subTotal * coupon.discount / 100);
+      } else if (is_coupon && coupon.discountType == 'fixed') {
+        return discountCoupon = coupon.discount;
+      }
+    } else {
+      print("NOT RETIRADA");
+      print(discountCoupon);
+      print(total);
+      print(subTotal);
+      print(deliveryFee);
+      if (is_coupon && coupon.discountType == 'percent') {
+        return discountCoupon =
+            ((subTotal + deliveryFee) * coupon.discount / 100);
+      } else if (is_coupon && coupon.discountType == 'fixed') {
+        return discountCoupon = coupon.discount;
+      }
+    }
+
+    return discountCoupon;
   }
 
   void listenForCarts({String message}) async {
@@ -194,14 +243,14 @@ class CartController extends ControllerMVC {
           print("NÃO OFERECE OPÇÃO PIZZA MEIO A MEIO");
           cart.options.forEach((element) {
             //apply the coupon on element
-            element.applyCoupon(coupon);
+            // element.applyCoupon(coupon);
             cartPrice += element.price;
           });
           break;
         case '1': //COBRA VALOR MEDIO OPÇÃO PIZZA MEIO A MEIO
           print("COBRAR VALOR MÉDIO OPÇÃO PIZZA MEIO A MEIO");
           for (var t = 0; t < cart.options?.length; t++) {
-            cart.options[t].applyCoupon(coupon);
+            // cart.options[t].applyCoupon(coupon);
             if (t < 3) {
               cartPrice += (cart.options[t].price / 2);
             } else {
@@ -213,7 +262,7 @@ class CartController extends ControllerMVC {
           print("COBRAR VALOR MAIOR OPÇÃO PIZZA MEIO A MEIO");
           var firstPrice = 0.0;
           for (var t = 0; t < cart.options?.length; t++) {
-            cart.options[t].applyCoupon(coupon);
+            // cart.options[t].applyCoupon(coupon);
             if (t == 0) {
               print("ENTROU NO T ZERO");
               firstPrice = cart.options[t].price;
@@ -233,7 +282,7 @@ class CartController extends ControllerMVC {
           print("COBRAR VALOR DEFAULT");
           cart.options.forEach((element) {
             //apply the coupon on element
-            element.applyCoupon(coupon);
+            // element.applyCoupon(coupon);
             cartPrice += element.price;
           });
           break;
@@ -259,14 +308,25 @@ class CartController extends ControllerMVC {
     taxAmount =
         (subTotal + deliveryFee) * carts[0].product.market.defaultTax / 100;
     total = subTotal + taxAmount + deliveryFee;
+
+    if (is_coupon && coupon.discountType == 'percent') {
+      discountCoupon = (total * coupon.discount / 100);
+      total = total - discountCoupon;
+    } else if (is_coupon && coupon.discountType == 'fixed') {
+      discountCoupon = coupon.discount;
+      total = total - coupon.discount;
+    }
+
     print(total);
     setState(() {});
   }
 
   void doApplyCoupon(String code, {String message}) async {
     print("CAINDO APPLY COUPON");
+    print("APPLY COUPON TOTAL VALUE CART: " + total.toString());
     coupon_cart = null;
     is_coupon = false;
+    discountCoupon = 0.0;
     setState(() {});
     coupon = new Coupon.fromJSON({"code": code, "valid": null});
     final Stream<Coupon> stream = await verifyCoupon(code);
@@ -274,6 +334,10 @@ class CartController extends ControllerMVC {
       coupon = _coupon;
       coupon_cart = _coupon;
       is_coupon = true;
+      // discountCoupon = _coupon.discountType == 'fixed'
+      //     ? _coupon.discount
+      //     : (total * _coupon.discount / 100);
+      // discountCoupon = _coupon.discount;
       setState(() {});
       //couponRepo.saveCoupon(coupon);
     }, onError: (a) {
@@ -292,10 +356,17 @@ class CartController extends ControllerMVC {
     stream.listen((Coupon _coupon) async {
       print('CUPOM TYPE');
       print(_coupon.discountType);
+      print('CUPOM TYPE VALUE TOTAL');
+      print(total.toString());
       coupon = _coupon;
       coupon_cart = _coupon;
       is_coupon = true;
+      // discountCoupon = _coupon.discountType == 'fixed'
+      //     ? _coupon.discount
+      //     : (total * _coupon.discount / 100);
+      // discountCoupon = _coupon.discount;
       //couponRepo.saveCoupon(coupon);
+      setState(() {});
     }, onError: (a) {
       print(a);
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
@@ -324,6 +395,14 @@ class CartController extends ControllerMVC {
     }
   }
 
+  resetCouponValue() {
+    coupon = null;
+    is_coupon = false;
+    discountCoupon = 0.0;
+    setState(() {});
+    calculateSubtotal();
+  }
+
   void goCheckout(BuildContext context) {
     if (!currentUser.value.profileCompleted()) {
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
@@ -348,11 +427,12 @@ class CartController extends ControllerMVC {
   }
 
   Color getCouponIconColor() {
-    if (coupon?.valid == true) {
+    if (is_coupon && discountCoupon > 0) {
       return Colors.green;
-    } else if (coupon?.valid == false) {
-      return Colors.redAccent;
     }
+    // else if (discountCoupon != 0.0 && !is_coupon) {
+    //   return Colors.redAccent;
+    // }
     return Theme.of(context).focusColor.withOpacity(0.7);
   }
 }

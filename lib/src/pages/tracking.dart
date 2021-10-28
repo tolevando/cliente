@@ -322,6 +322,26 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget>
                                                   children: <Widget>[
                                                     Expanded(
                                                       child: Text(
+                                                        'Valor cupom desconto: ',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1,
+                                                      ),
+                                                    ),
+                                                    Helper.getPriceMinimum(
+                                                        Helper
+                                                            .getDiscountTotalOrdersPrice(
+                                                                _con.order),
+                                                        context,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .subtitle1)
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
                                                         S.of(context).total,
                                                         style: Theme.of(context)
                                                             .textTheme

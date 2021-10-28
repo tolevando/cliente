@@ -29,6 +29,12 @@ class _PaymentMethodsPickupWidgetState
   DeliveryPickupController _con;
   _PaymentMethodsPickupWidgetState() : super(DeliveryPickupController()) {
     _con = controller;
+
+    checaDesconto();
+  }
+
+  void checaDesconto() async {
+    _con.doApplyCouponConstructor(coupon.code);
   }
 
   void updateTrocoPara(valor) async {
@@ -109,7 +115,6 @@ class _PaymentMethodsPickupWidgetState
       });
 
     }*/
-
     return Scaffold(
       key: _con.scaffoldKey,
       bottomNavigationBar: CartBottomDetailsSingleWidget(

@@ -391,13 +391,18 @@ class Helper {
 
   static double getOrderPrice(ProductOrder productOrder) {
     double total = productOrder.price;
+    print("OPTION PRICE TOTAL INITIAL: " + total.toString());
 
     switch (productOrder.product.option_mid_pizza) {
       case '0': //NÃO OFERECE OPÇÃO PIZZA MEIO A MEIO
         print("NÃO OFERECE OPÇÃO PIZZA MEIO A MEIO");
-        productOrder.options.forEach((option) {
-          total += option.price != null ? option.price : 0;
-        });
+        // productOrder.options.forEach((option) {
+        //   print("OPTION PRODUCT PRICE: " + option.price.toString());
+        //   print("OPTION PRODUCT NAME: " + option.name.toString());
+        //   total += option.price != null ? option.price : 0;
+        // });
+
+        print("OPTION PRICE TOTAL: " + total.toString());
         break;
       case '1': //COBRA VALOR MEDIO OPÇÃO PIZZA MEIO A MEIO
         print("COBRAR VALOR MÉDIO OPÇÃO PIZZA MEIO A MEIO");
@@ -409,11 +414,13 @@ class Helper {
         break;
       default:
         print("COBRAR VALOR DEFAULT");
-        productOrder.options.forEach((option) {
-          total += option.price != null ? option.price : 0;
-        });
+        // productOrder.options.forEach((option) {
+        //   total += option.price != null ? option.price : 0;
+        // });
         break;
     }
+    print("OPTION PRICE TOTAL FINAL: " + total.toString());
+
     return total;
   }
 
@@ -423,6 +430,20 @@ class Helper {
       total += getTotalOrderPrice(productOrder);
     });
     return order.tax * total / 100;
+  }
+
+  static double getDiscountTotalOrdersPrice(Order order) {
+    double total = 0;
+    double discount = 0;
+    order.productOrders.forEach((productOrder) {
+      total += productOrder.price;
+    });
+
+    total += order.deliveryFee;
+    total += order.tax * total / 100;
+
+    discount = total - order.payment.price;
+    return discount;
   }
 
   static double getTotalOrdersPrice(Order order) {
