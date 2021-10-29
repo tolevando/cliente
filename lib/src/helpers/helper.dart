@@ -436,7 +436,7 @@ class Helper {
     double total = 0;
     double discount = 0;
     order.productOrders.forEach((productOrder) {
-      total += productOrder.price;
+      total += productOrder.price * productOrder.quantity;
     });
 
     total += order.deliveryFee;

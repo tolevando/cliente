@@ -48,14 +48,14 @@ class CartController extends ControllerMVC {
 
       return total - deliveryFee;
     } else {
-      print('GET TOTAL IS RETIRADA');
+      print('GET TOTAL IS NOT RETIRADA');
       print(discountCoupon);
       print(total);
       print(subTotal);
       print(deliveryFee);
       if (is_coupon && coupon.discountType == 'percent') {
-        discountCoupon = ((subTotal + deliveryFee) * coupon.discount / 100);
-        return total = (subTotal + deliveryFee) - discountCoupon;
+        discountCoupon = (subTotal * coupon.discount / 100);
+        return total = (subTotal - discountCoupon) + deliveryFee;
       }
       // calculateSubtotal();
       // return total - discountCoupon;
@@ -83,8 +83,7 @@ class CartController extends ControllerMVC {
       print(subTotal);
       print(deliveryFee);
       if (is_coupon && coupon.discountType == 'percent') {
-        return discountCoupon =
-            ((subTotal + deliveryFee) * coupon.discount / 100);
+        return discountCoupon = ((subTotal) * coupon.discount / 100);
       } else if (is_coupon && coupon.discountType == 'fixed') {
         return discountCoupon = coupon.discount;
       }
@@ -228,7 +227,7 @@ class CartController extends ControllerMVC {
 
   void calculateSubtotal() async {
     //coupon = await couponRepo.getCoupon();
-    print(coupon.code);
+    // print(coupon.code);
 
     double cartPrice = 0;
     subTotal = 0;
@@ -267,7 +266,7 @@ class CartController extends ControllerMVC {
               print("ENTROU NO T ZERO");
               firstPrice = cart.options[t].price;
             }
-            if (t < 3) {
+            if (t < 2) {
               print("FIRST PRICE: " + firstPrice.toString());
               print("OPTION PRICE: " + cart.options[t].price.toString());
               cartPrice = (firstPrice > cart.options[t].price
@@ -289,6 +288,8 @@ class CartController extends ControllerMVC {
       }
 
       cartPrice *= cart.quantity;
+      print("SUB TOTAL PRICE");
+      print(cartPrice);
       setState(() => subTotal += cartPrice);
     });
 
