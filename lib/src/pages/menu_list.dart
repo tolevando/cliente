@@ -1,23 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:markets/src/elements/GalleryCarouselWidget.dart';
-import 'package:markets/src/elements/ReviewsListWidget.dart';
-import 'package:markets/src/elements/SearchBarMarketWidget.dart';
-import 'package:markets/src/elements/ShoppingCartFloatButtonWidget.dart';
+import '../elements/GalleryCarouselWidget.dart';
+import '../elements/ReviewsListWidget.dart';
+import '../elements/SearchBarMarketWidget.dart';
+import '../elements/ShoppingCartFloatButtonWidget.dart';
+import '../elements/ReturnBackFloatButtonWidget.dart';
 import 'package:markets/src/helpers/helper.dart';
-import 'package:markets/src/models/bairro.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/market_controller.dart';
 import '../elements/CircularLoadingWidget.dart';
-import '../elements/DrawerWidget.dart';
 import '../elements/ProductItemWidget.dart';
 import '../elements/ProductsCarouselWidget.dart';
-
-import '../elements/ShoppingCartButtonWidget.dart';
 
 import '../models/route_argument.dart';
 import '../repository/settings_repository.dart';
@@ -68,12 +64,14 @@ class _MenuWidgetState extends StateMVC<MenuWidget> {
                   shrinkWrap: false,
                   slivers: <Widget>[
                     SliverAppBar(
+                      automaticallyImplyLeading: false,
                       backgroundColor:
                           Theme.of(context).accentColor.withOpacity(0.9),
                       expandedHeight: 300,
                       elevation: 0,
-                      iconTheme:
-                          IconThemeData(color: Theme.of(context).primaryColor),
+                      iconTheme: IconThemeData(
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.0)),
                       flexibleSpace: FlexibleSpaceBar(
                         collapseMode: CollapseMode.parallax,
                         background: Hero(
@@ -486,6 +484,14 @@ class _MenuWidgetState extends StateMVC<MenuWidget> {
                     labelColor: Theme.of(context).hintColor,
                     routeArgument: RouteArgument(
                         param: '/Menu', id: widget.routeArgument.id),
+                  ),
+                ),
+                Positioned(
+                  top: 32,
+                  left: 20,
+                  child: ReturnBackFloatButtonWidget(
+                    iconColor: Theme.of(context).primaryColor,
+                    labelColor: Theme.of(context).hintColor,
                   ),
                 ),
               ],

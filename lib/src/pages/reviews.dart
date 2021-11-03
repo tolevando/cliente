@@ -54,15 +54,20 @@ class _ReviewsWidgetState extends StateMVC<ReviewsWidget> {
                                     height: 150,
                                     width: double.infinity,
                                     child: Hero(
-                                      tag: widget.routeArgument.heroTag + _con.order.productOrders[0].product.market.id,
+                                      tag: widget.routeArgument.heroTag +
+                                          _con.order.productOrders[0].product
+                                              .market.id,
                                       child: CachedNetworkImage(
                                         fit: BoxFit.cover,
-                                        imageUrl: _con.order.productOrders[0].product.market.image.url,
-                                        placeholder: (context, url) => Image.asset(
+                                        imageUrl: _con.order.productOrders[0]
+                                            .product.market.image.url,
+                                        placeholder: (context, url) =>
+                                            Image.asset(
                                           'assets/img/loading.gif',
                                           fit: BoxFit.cover,
                                         ),
-                                        errorWidget: (context, url, error) => Icon(Icons.error),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                       ),
                                     ),
                                   ),
@@ -73,10 +78,18 @@ class _ReviewsWidgetState extends StateMVC<ReviewsWidget> {
                                   child: Chip(
                                     padding: EdgeInsets.all(10),
                                     label: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
-                                        Text(_con.order.productOrders[0].product.market.rate,
-                                            style: Theme.of(context).textTheme.headline3.merge(TextStyle(color: Theme.of(context).primaryColor))),
+                                        Text(
+                                            _con.order.productOrders[0].product
+                                                .market.rate,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline3
+                                                .merge(TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor))),
                                         Icon(
                                           Icons.star_border,
                                           color: Theme.of(context).primaryColor,
@@ -84,7 +97,9 @@ class _ReviewsWidgetState extends StateMVC<ReviewsWidget> {
                                         ),
                                       ],
                                     ),
-                                    backgroundColor: Theme.of(context).accentColor.withOpacity(0.9),
+                                    backgroundColor: Theme.of(context)
+                                        .accentColor
+                                        .withOpacity(0.9),
                                     shape: StadiumBorder(),
                                   ),
                                 ),
@@ -116,18 +131,30 @@ class _ReviewsWidgetState extends StateMVC<ReviewsWidget> {
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                          margin: EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 20),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 30, horizontal: 20),
                           decoration: BoxDecoration(
                               color: Theme.of(context).primaryColor,
                               borderRadius: BorderRadius.circular(10),
-                              boxShadow: [BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), offset: Offset(0, -2), blurRadius: 5.0)]),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Theme.of(context)
+                                        .focusColor
+                                        .withOpacity(0.15),
+                                    offset: Offset(0, -2),
+                                    blurRadius: 5.0)
+                              ]),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              Text(S.of(context).how_would_you_rate_this_market_, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle1),
+                              Text(
+                                  S.of(context).how_would_you_rate_this_market_,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.subtitle1),
                               SizedBox(height: 10),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -135,12 +162,16 @@ class _ReviewsWidgetState extends StateMVC<ReviewsWidget> {
                                   return InkWell(
                                     onTap: () {
                                       setState(() {
-                                        _con.marketReview.rate = (index + 1).toString();
+                                        _con.marketReview.rate =
+                                            (index + 1).toString();
                                       });
                                     },
-                                    child: index < int.parse(_con.marketReview.rate)
-                                        ? Icon(Icons.star, size: 40, color: Color(0xFFFFB24D))
-                                        : Icon(Icons.star_border, size: 40, color: Color(0xFFFFB24D)),
+                                    child: index <
+                                            int.parse(_con.marketReview.rate)
+                                        ? Icon(Icons.star,
+                                            size: 40, color: Color(0xFFFFB24D))
+                                        : Icon(Icons.star_border,
+                                            size: 40, color: Color(0xFFFFB24D)),
                                   );
                                 }),
                               ),
@@ -153,16 +184,33 @@ class _ReviewsWidgetState extends StateMVC<ReviewsWidget> {
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(12),
-                                  hintText: S.of(context).tell_us_about_this_market,
-                                  hintStyle: Theme.of(context).textTheme.caption.merge(TextStyle(fontSize: 14)),
-                                  border: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.1))),
-                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
-                                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.1))),
+                                  hintText:
+                                      S.of(context).tell_us_about_this_market,
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      .merge(TextStyle(fontSize: 14)),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .focusColor
+                                              .withOpacity(0.1))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .focusColor
+                                              .withOpacity(0.2))),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .focusColor
+                                              .withOpacity(0.1))),
                                 ),
                               ),
                               SizedBox(height: 10),
                               FlatButton.icon(
-                                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 18),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 18),
                                 onPressed: () {
                                   _con.addMarketReview(_con.marketReview);
                                   FocusScope.of(context).unfocus();
@@ -170,7 +218,8 @@ class _ReviewsWidgetState extends StateMVC<ReviewsWidget> {
                                 shape: StadiumBorder(),
                                 label: Text(
                                   S.of(context).submit,
-                                  style: TextStyle(color: Theme.of(context).primaryColor),
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
                                 ),
                                 icon: Icon(
                                   Icons.check,
@@ -183,21 +232,35 @@ class _ReviewsWidgetState extends StateMVC<ReviewsWidget> {
                           ),
                         ),
                         Column(
-                          children: List.generate(_con.productsOfOrder.length, (index) {
+                          children: List.generate(_con.productsOfOrder.length,
+                              (index) {
                             return Container(
                               width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                              padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 20),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 30, horizontal: 20),
                               decoration: BoxDecoration(
                                   color: Theme.of(context).primaryColor,
                                   borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), offset: Offset(0, -2), blurRadius: 5.0)]),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Theme.of(context)
+                                            .focusColor
+                                            .withOpacity(0.15),
+                                        offset: Offset(0, -2),
+                                        blurRadius: 5.0)
+                                  ]),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
-                                  Text(_con.productsOfOrder[index].name, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle1),
+                                  Text(_con.productsOfOrder[index].name,
+                                      textAlign: TextAlign.center,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1),
                                   SizedBox(height: 10),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -205,12 +268,20 @@ class _ReviewsWidgetState extends StateMVC<ReviewsWidget> {
                                       return InkWell(
                                         onTap: () {
                                           setState(() {
-                                            _con.productsReviews[index].rate = (star + 1).toString();
+                                            _con.productsReviews[index].rate =
+                                                (star + 1).toString();
                                           });
                                         },
-                                        child: star < int.parse(_con.productsReviews[index].rate)
-                                            ? Icon(Icons.star, size: 40, color: Color(0xFFFFB24D))
-                                            : Icon(Icons.star_border, size: 40, color: Color(0xFFFFB24D)),
+                                        child: star <
+                                                int.parse(_con
+                                                    .productsReviews[index]
+                                                    .rate)
+                                            ? Icon(Icons.star,
+                                                size: 40,
+                                                color: Color(0xFFFFB24D))
+                                            : Icon(Icons.star_border,
+                                                size: 40,
+                                                color: Color(0xFFFFB24D)),
                                       );
                                     }),
                                   ),
@@ -223,24 +294,46 @@ class _ReviewsWidgetState extends StateMVC<ReviewsWidget> {
                                     textAlign: TextAlign.center,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(12),
-                                      hintText: S.of(context).tell_us_about_this_product,
-                                      hintStyle: Theme.of(context).textTheme.caption.merge(TextStyle(fontSize: 14)),
-                                      border: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.1))),
-                                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
-                                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.1))),
+                                      hintText: S
+                                          .of(context)
+                                          .tell_us_about_this_product,
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .caption
+                                          .merge(TextStyle(fontSize: 14)),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .focusColor
+                                                  .withOpacity(0.1))),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .focusColor
+                                                  .withOpacity(0.2))),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .focusColor
+                                                  .withOpacity(0.1))),
                                     ),
                                   ),
                                   SizedBox(height: 10),
                                   FlatButton.icon(
-                                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 18),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 18),
                                     onPressed: () {
-                                      _con.addProductReview(_con.productsReviews[index], _con.productsOfOrder[index]);
+                                      _con.addProductReview(
+                                          _con.productsReviews[index],
+                                          _con.productsOfOrder[index]);
                                       FocusScope.of(context).unfocus();
                                     },
                                     shape: StadiumBorder(),
                                     label: Text(
                                       S.of(context).submit,
-                                      style: TextStyle(color: Theme.of(context).primaryColor),
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).primaryColor),
                                     ),
                                     icon: Icon(
                                       Icons.check,

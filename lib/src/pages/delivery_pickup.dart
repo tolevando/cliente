@@ -133,7 +133,7 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 20, bottom: 10, left: 20, right: 10),
+                      top: 20, bottom: 10, left: 10, right: 10),
                   child: ListTile(
                     contentPadding: EdgeInsets.symmetric(vertical: 0),
                     leading: Icon(
@@ -141,7 +141,7 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                       color: Theme.of(context).hintColor,
                     ),
                     title: Text(
-                      "Delivery",
+                      "SELECIONE ONDE ENTREGAR",
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.headline4,

@@ -13,6 +13,7 @@ import '../elements/ShoppingCartFloatButtonWidget.dart';
 import '../helpers/helper.dart';
 import '../models/route_argument.dart';
 import '../repository/user_repository.dart';
+import '../elements/ReturnBackFloatButtonWidget.dart';
 
 // ignore: must_be_immutable
 class ProductWidget extends StatefulWidget {
@@ -60,12 +61,15 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                       shrinkWrap: false,
                       slivers: <Widget>[
                         SliverAppBar(
+                          automaticallyImplyLeading: false,
                           backgroundColor:
                               Theme.of(context).accentColor.withOpacity(0.9),
                           expandedHeight: 300,
                           elevation: 0,
                           iconTheme: IconThemeData(
-                              color: Theme.of(context).accentColor),
+                              color: Theme.of(context)
+                                  .accentColor
+                                  .withOpacity(0.0)),
                           flexibleSpace: FlexibleSpaceBar(
                             collapseMode: CollapseMode.parallax,
                             background: Hero(
@@ -356,6 +360,14 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
                             routeArgument: RouteArgument(
                                 param: '/Product', id: _con.product.id),
                           ),
+                  ),
+                  Positioned(
+                    top: 32,
+                    left: 20,
+                    child: ReturnBackFloatButtonWidget(
+                      iconColor: Theme.of(context).primaryColor,
+                      labelColor: Theme.of(context).hintColor,
+                    ),
                   ),
                   Positioned(
                     bottom: 0,
